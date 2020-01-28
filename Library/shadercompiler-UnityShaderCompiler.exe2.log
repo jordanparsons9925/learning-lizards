@@ -1,0 +1,40 @@
+Base path: 'C:/Program Files/Unity/Hub/Editor/2019.2.3f1/Editor/Data', plugins path 'C:/Program Files/Unity/Hub/Editor/2019.2.3f1/Editor/Data/PlaybackEngines'
+Cmd: initializeCompiler
+Cmd: compileComputeKernel
+  api=4 insize=7960 outsize=1494 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=64076 outsize=4640 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=9919 outsize=1879 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=9919 outsize=1909 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=24335 outsize=2679 ok=1
+Cmd: compileComputeKernel
+  error: 1 plat 4 at BarracudaReferenceImpl.compute(1256): array reference cannot be used as an l-value; not natively addressable, forcing loop to unroll
+  error: 1 plat 4 at BarracudaReferenceImpl.compute(1266): array reference cannot be used as an l-value; not natively addressable, forcing loop to unroll
+  api=4 insize=44336 outsize=8563 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=29386 outsize=772 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=29386 outsize=937 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=29386 outsize=791 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=29386 outsize=805 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=29386 outsize=796 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=29386 outsize=700 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=29386 outsize=1264 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=29386 outsize=1519 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=29386 outsize=1378 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=29386 outsize=1283 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=29386 outsize=1341 ok=1
+Cmd: compileComputeKernel
+  api=4 insize=29386 outsize=1319 ok=1
