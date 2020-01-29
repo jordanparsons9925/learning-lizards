@@ -46,9 +46,6 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Script.cs" />
-     <Compile Include="Assets\Scripts\smartestLizard.cs" />
-     <Compile Include="Assets\Scripts\thigh1.cs" />
-     <Compile Include="Assets\Scripts\thigh2.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Users/20145879/Desktop/My Repos/learning-lizards/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
