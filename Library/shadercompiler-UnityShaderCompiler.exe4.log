@@ -1,44 +1,4 @@
 Base path: 'C:/Program Files/Unity/Hub/Editor/2019.2.19f1/Editor/Data', plugins path 'C:/Program Files/Unity/Hub/Editor/2019.2.19f1/Editor/Data/PlaybackEngines'
 Cmd: initializeCompiler
-Cmd: compileComputeKernel
-  api=4 insize=7960 outsize=1022 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=64076 outsize=7621 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=9919 outsize=1879 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=9919 outsize=1909 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=24335 outsize=6224 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=7335 outsize=1799 ok=1
-Cmd: compileComputeKernel
-  error: 1 plat 4 at BarracudaReferenceImpl.compute(1256): array reference cannot be used as an l-value; not natively addressable, forcing loop to unroll
-  error: 1 plat 4 at BarracudaReferenceImpl.compute(1266): array reference cannot be used as an l-value; not natively addressable, forcing loop to unroll
-  api=4 insize=44336 outsize=8563 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=4081 outsize=1475 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=29386 outsize=680 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=29386 outsize=1069 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=29386 outsize=773 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=29386 outsize=950 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=29386 outsize=677 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=29386 outsize=700 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=29386 outsize=1293 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=29386 outsize=1492 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=29386 outsize=1315 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=29386 outsize=1243 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=29386 outsize=1279 ok=1
-Cmd: compileComputeKernel
-  api=4 insize=29386 outsize=1613 ok=1
+Cmd: compileSnippet
+  api=4 type=0 insize=1454 outsize=1798 kw=UNITY_PASS_FORWARDADD DIRECTIONAL SHADOWS_SCREEN pd=UNITY_ENABLE_REFLECTION_BUFFERS UNITY_USE_DITHER_MASK_FOR_ALPHABLENDED_SHADOWS UNITY_PBS_USE_BRDF1 UNITY_SPECCUBE_BOX_PROJECTION UNITY_SPECCUBE_BLENDING UNITY_ENABLE_DETAIL_NORMALMAP SHADER_API_DESKTOP UNITY_COLORSPACE_GAMMA UNITY_LIGHT_PROBE_PROXY_VOLUME UNITY_LIGHTMAP_FULL_HDR ok=1

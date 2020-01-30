@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class lizardLearner : MonoBehaviour
 {
-    public GameObject variableMemory;
+    public Text childDisplay;
     public Rigidbody lizardBody;
-    //hinge objects on lizard
+
+    //body parts on lizard
     public HingeJoint thigh1;
     public Rigidbody thigh1Body;
     public JointMotor thigh1Motor;
@@ -37,84 +39,108 @@ public class lizardLearner : MonoBehaviour
     private float changeTime = 0.0f;
     private float fruitTime = 0.0f;
     private float lifeTime = 0.0f;
-    private int limbLimit = 120;
+    private int limbLimit = 90;
     private int forceLimit = 200;
-    private int childrenPerGen = 10;
-    private int mutationLevel = 5;
-    static public int numChunks = (int) lifeSpan * 2; //The half-second patterns
+    private int childrenPerGen;
+    private int mutationLevel = 10;
+    static public int numChunks = (int) lifeSpan * 4; //The half-second patterns
     static public int numBlocks = 8; //The parts of the body moved per chunk
     static public int numNeurons = 2; //The angle and strength of movement
     
     //data for lizard brains
     private int[, ,] lizardBrain;
     private int currentChunk;
-    public float lizardBestTime;
-    public int lizardBestDistance;
+    private int groundCounter;
+    public float newTimeDistance;
+    public float lizardDistance;
 
-    //current variables
-    public int lizardGeneration;
-    private int lizardScore;
+    public void setTime (float newTime) {
+        Time.timeScale = newTime;
+    }
 
-    void renderNextAction () {
+    void renderNextActionA () {
         //assigns the neurons to the associated motor angle and force
         thigh1Motor.targetVelocity = lizardBrain[currentChunk, 0, 0];
         thigh1Motor.force = lizardBrain[currentChunk, 0, 1];
-        thigh2Motor.targetVelocity = lizardBrain[currentChunk, 1, 0];
-        thigh2Motor.force = lizardBrain[currentChunk, 1, 1];
-        thigh3Motor.targetVelocity = lizardBrain[currentChunk, 2, 0];
-        thigh3Motor.force = lizardBrain[currentChunk, 2, 1];
         thigh4Motor.targetVelocity= lizardBrain[currentChunk, 3, 0];
         thigh4Motor.force = lizardBrain[currentChunk, 3, 1];
         ankle1Motor.targetVelocity = lizardBrain[currentChunk, 4, 0];
         ankle1Motor.force = lizardBrain[currentChunk, 4, 1];
+        ankle4Motor.targetVelocity = lizardBrain[currentChunk, 7, 0];
+        ankle4Motor.force = lizardBrain[currentChunk, 7, 1];
+
+        thigh1.motor = thigh1Motor;
+        thigh4.motor = thigh4Motor;
+
+        ankle1.motor = ankle1Motor;
+        ankle4.motor = ankle4Motor;
+
+        //activates the motors
+        lizardBody.AddForce(Vector3.zero);
+        thigh1Body.AddForce(Vector3.zero);
+        thigh4Body.AddForce(Vector3.zero);
+        ankle1Body.AddForce(Vector3.zero);
+        ankle4Body.AddForce(Vector3.zero);
+    }
+    void renderNextActionB () {
+        //assigns the neurons to the associated motor angle and force
+        thigh2Motor.targetVelocity = lizardBrain[currentChunk, 1, 0];
+        thigh2Motor.force = lizardBrain[currentChunk, 1, 1];
+        thigh3Motor.targetVelocity = lizardBrain[currentChunk, 2, 0];
+        thigh3Motor.force = lizardBrain[currentChunk, 2, 1];
         ankle2Motor.targetVelocity = lizardBrain[currentChunk, 5, 0];
         ankle2Motor.force = lizardBrain[currentChunk, 5, 1];
         ankle3Motor.targetVelocity = lizardBrain[currentChunk, 6, 0];
-        ankle3Motor.force = lizardBrain[currentChunk, 6, 1];
-        ankle4Motor.targetVelocity = lizardBrain[currentChunk, 7, 0];
-        ankle4Motor.force = lizardBrain[currentChunk++, 7, 1];
+        ankle3Motor.force = lizardBrain[currentChunk++, 6, 1];
 
-        thigh1.motor = thigh1Motor;
         thigh2.motor = thigh2Motor;
         thigh3.motor = thigh3Motor;
-        thigh3.motor = thigh4Motor;
 
-        ankle1.motor = ankle1Motor;
         ankle2.motor = ankle2Motor;
         ankle3.motor = ankle3Motor;
-        ankle4.motor = ankle4Motor;
 
+        //activates the motors
         lizardBody.AddForce(Vector3.zero);
-        thigh1Body.AddForce(Vector3.zero);
         thigh2Body.AddForce(Vector3.zero);
         thigh3Body.AddForce(Vector3.zero);
-        thigh4Body.AddForce(Vector3.zero);
-        ankle1Body.AddForce(Vector3.zero);
         ankle2Body.AddForce(Vector3.zero);
         ankle3Body.AddForce(Vector3.zero);
-        ankle4Body.AddForce(Vector3.zero);
     }
 
-    void storeNewChampion() {
-        for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
-            for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
-                for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
-                    memoryScript.Brain[brainChunk, brainBlock, brainNeuron] = lizardBrain[brainChunk, brainBlock, brainNeuron];
+    void nextChild() {
+        if (memoryScript.Child++ >= 10) {
+            memoryScript.Generation++;
+            memoryScript.Child = 1;
+            memoryScript.nextGeneration();
+        }
+        lizardDistance = memoryScript.currentDistance;
+        if (lizardDistance > memoryScript.longestDistance) {
+            for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
+                for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
+                    for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
+                        memoryScript.BestBrain[brainChunk, brainBlock, brainNeuron] = lizardBrain[brainChunk,brainBlock, brainNeuron];
                 }
             }
+            memoryScript.longestDistance = lizardDistance;
         }
-
+        }
+        SceneManager.LoadScene("inSimulation");
     }
 
     void Awake()
     {
-        Time.timeScale = 20.0f;
-        lizardGeneration = 0;
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        groundCounter = 0;
+        newTimeDistance = 0;
+        memoryScript.currentDistance = 0;
+        childrenPerGen = memoryScript.childrenPerGen;
+        childDisplay.text = "Generation: " + memoryScript.Generation + 
+            "\nChild: " + memoryScript.Child;
         lizardBody = GetComponent<Rigidbody>();
         thigh1Motor = thigh1.motor;
         thigh2Motor = thigh2.motor;
@@ -130,7 +156,7 @@ public class lizardLearner : MonoBehaviour
         for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
             for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
                 for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
-                    lizardBrain[brainChunk, brainBlock, brainNeuron] = memoryScript.Brain[brainChunk, brainBlock, brainNeuron];
+                    lizardBrain[brainChunk, brainBlock, brainNeuron] = memoryScript.ParentBrain[brainChunk, brainBlock, brainNeuron];
                 }
             }
         }
@@ -170,7 +196,7 @@ public class lizardLearner : MonoBehaviour
             }
         }
 
-        renderNextAction();
+        renderNextActionA();
     }
 
     // Update is called once per frame
@@ -179,18 +205,34 @@ public class lizardLearner : MonoBehaviour
         lifeTime += Time.deltaTime;
         fruitTime += Time.deltaTime;
         changeTime += Time.deltaTime;
+        if (newTimeDistance != memoryScript.currentDistance) {
+            fruitTime = 0.0f;
+            newTimeDistance = memoryScript.currentDistance;
+        }
 
         if (lifeTime >= lifeSpan) {
             //die, next species
+            nextChild();
         }
-        if (fruitTime >= 60f) {
+        if (fruitTime >= 30f) {
             //die, next species
-            storeNewChampion();
-            SceneManager.LoadScene("inSimulation");
+            nextChild();
         }
         if (changeTime >= 0.5f) {
-            renderNextAction();
-            changeTime -= 0.5f;
+            renderNextActionA();
         }
+        if (changeTime >= 1.0f) {
+            renderNextActionB();
+            changeTime -= 1.0f;
+        }
+    }
+
+    void OnCollisionStay(Collision other) {
+        if (groundCounter++ >= 60)
+            nextChild();
+    }
+
+    void OnCollisionExit(Collision other) {
+        groundCounter = 0;
     }
 }
