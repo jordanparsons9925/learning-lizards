@@ -1,36 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class Script : MonoBehaviour
+public class lizardLearner : MonoBehaviour
 {
+    public GameObject variableMemory;
+    public Rigidbody lizardBody;
     //hinge objects on lizard
     public HingeJoint thigh1;
-    public HingeJoint thigh1Middle;
-    public float thigh1Angle;
-    public float thigh1Force;
+    public Rigidbody thigh1Body;
+    public JointMotor thigh1Motor;
     public HingeJoint thigh2;
-    public HingeJoint thigh2Middle;
-    public float thigh2Angle;
-    public float thigh2Force;
+    public Rigidbody thigh2Body;
+    public JointMotor thigh2Motor;
     public HingeJoint thigh3;
-    public float thigh3Angle;
-    public float thigh3Force;
+    public Rigidbody thigh3Body;
+    public JointMotor thigh3Motor;
     public HingeJoint thigh4;
-    public float thigh4Angle;
-    public float thigh4Force;
+    public Rigidbody thigh4Body;
+    public JointMotor thigh4Motor;
     public HingeJoint ankle1;
-    public float ankle1Angle;
-    public float ankle1Force;
+    public Rigidbody ankle1Body;
+    public JointMotor ankle1Motor;
     public HingeJoint ankle2;
-    public float ankle2Angle;
-    public float ankle2Force;
+    public Rigidbody ankle2Body;
+    public JointMotor ankle2Motor;
     public HingeJoint ankle3;
-    public float ankle3Angle;
-    public float ankle3Force;
+    public Rigidbody ankle3Body;
+    public JointMotor ankle3Motor;
     public HingeJoint ankle4;
-    public float ankle4Angle;
-    public float ankle4Force;
+    public Rigidbody ankle4Body;
+    public JointMotor ankle4Motor;
     //variables for setting up the lizards
     static public float lifeSpan = 300f; //Lifespan of lizard in seconds
     private float changeTime = 0.0f;
@@ -39,95 +40,102 @@ public class Script : MonoBehaviour
     private int limbLimit = 120;
     private int forceLimit = 200;
     private int childrenPerGen = 10;
-    private int mutationLevel = 50;
-    static public int numChunks = (int) lifeSpan / 2; //The half-second patterns
+    private int mutationLevel = 5;
+    static public int numChunks = (int) lifeSpan * 2; //The half-second patterns
     static public int numBlocks = 8; //The parts of the body moved per chunk
     static public int numNeurons = 2; //The angle and strength of movement
     
     //data for lizard brains
-    private int[, ,] smartestLizardBrain = new int[numChunks, numBlocks, numNeurons];
     private int[, ,] lizardBrain;
     private int currentChunk;
-    private float lizardBestTime = 0.0f;
-    private int lizardBestDistance;
+    public float lizardBestTime;
+    public int lizardBestDistance;
 
     //current variables
-    private int lizardChild;
-    private int lizardGeneration;
+    public int lizardGeneration;
     private int lizardScore;
 
-    void makeNewChild() {
-
-    }
-
     void renderNextAction () {
-        Debug.Log("Chunk " + currentChunk);
-        thigh1Angle = lizardBrain[currentChunk, 0, 0];
-        thigh1Force = lizardBrain[currentChunk, 0, 1];
-        thigh2Angle = lizardBrain[currentChunk, 1, 0];
-        thigh2Force = lizardBrain[currentChunk, 1, 1];
-        thigh3Angle = lizardBrain[currentChunk, 2, 0];
-        thigh3Force = lizardBrain[currentChunk, 2, 1];
-        thigh4Angle = lizardBrain[currentChunk, 3, 0];
-        thigh4Force = lizardBrain[currentChunk, 3, 1];
+        //assigns the neurons to the associated motor angle and force
+        thigh1Motor.targetVelocity = lizardBrain[currentChunk, 0, 0];
+        thigh1Motor.force = lizardBrain[currentChunk, 0, 1];
+        thigh2Motor.targetVelocity = lizardBrain[currentChunk, 1, 0];
+        thigh2Motor.force = lizardBrain[currentChunk, 1, 1];
+        thigh3Motor.targetVelocity = lizardBrain[currentChunk, 2, 0];
+        thigh3Motor.force = lizardBrain[currentChunk, 2, 1];
+        thigh4Motor.targetVelocity= lizardBrain[currentChunk, 3, 0];
+        thigh4Motor.force = lizardBrain[currentChunk, 3, 1];
+        ankle1Motor.targetVelocity = lizardBrain[currentChunk, 4, 0];
+        ankle1Motor.force = lizardBrain[currentChunk, 4, 1];
+        ankle2Motor.targetVelocity = lizardBrain[currentChunk, 5, 0];
+        ankle2Motor.force = lizardBrain[currentChunk, 5, 1];
+        ankle3Motor.targetVelocity = lizardBrain[currentChunk, 6, 0];
+        ankle3Motor.force = lizardBrain[currentChunk, 6, 1];
+        ankle4Motor.targetVelocity = lizardBrain[currentChunk, 7, 0];
+        ankle4Motor.force = lizardBrain[currentChunk++, 7, 1];
 
-        ankle1Angle = lizardBrain[currentChunk, 4, 0];
-        ankle1Force = lizardBrain[currentChunk, 4, 1];
-        ankle2Angle = lizardBrain[currentChunk, 5, 0];
-        ankle2Force = lizardBrain[currentChunk, 5, 1];
-        ankle3Angle = lizardBrain[currentChunk, 6, 0];
-        ankle3Force = lizardBrain[currentChunk, 6, 1];
-        ankle4Angle = lizardBrain[currentChunk, 7, 0];
-        ankle4Force = lizardBrain[currentChunk++, 7, 1];
+        thigh1.motor = thigh1Motor;
+        thigh2.motor = thigh2Motor;
+        thigh3.motor = thigh3Motor;
+        thigh3.motor = thigh4Motor;
+
+        ankle1.motor = ankle1Motor;
+        ankle2.motor = ankle2Motor;
+        ankle3.motor = ankle3Motor;
+        ankle4.motor = ankle4Motor;
+
+        lizardBody.AddForce(Vector3.zero);
+        thigh1Body.AddForce(Vector3.zero);
+        thigh2Body.AddForce(Vector3.zero);
+        thigh3Body.AddForce(Vector3.zero);
+        thigh4Body.AddForce(Vector3.zero);
+        ankle1Body.AddForce(Vector3.zero);
+        ankle2Body.AddForce(Vector3.zero);
+        ankle3Body.AddForce(Vector3.zero);
+        ankle4Body.AddForce(Vector3.zero);
     }
 
-    void Awake()
-    {
+    void storeNewChampion() {
         for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
             for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
                 for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
-                    smartestLizardBrain[brainChunk, brainBlock, brainNeuron] = 0;
+                    memoryScript.Brain[brainChunk, brainBlock, brainNeuron] = lizardBrain[brainChunk, brainBlock, brainNeuron];
                 }
             }
         }
 
-        lizardChild = 0;
+    }
+
+    void Awake()
+    {
+        Time.timeScale = 20.0f;
         lizardGeneration = 0;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Start!");
-        thigh1Angle = thigh1.motor.targetVelocity;
-        thigh1Force = thigh1.motor.force;
-        thigh2Angle = thigh2.motor.targetVelocity;
-        thigh2Force = thigh2.motor.force;
-        thigh3Angle = thigh3.motor.targetVelocity;
-        thigh3Force = thigh3.motor.force;
-        thigh4Angle = thigh4.motor.targetVelocity;
-        thigh4Force = thigh4.motor.force;
-        
-        ankle1Angle = ankle1.motor.targetVelocity;
-        ankle1Force = ankle1.motor.force;
-        ankle2Angle = ankle2.motor.targetVelocity;
-        ankle2Force = ankle2.motor.force;
-        ankle3Angle = ankle3.motor.targetVelocity;
-        ankle3Force = ankle3.motor.force;
-        ankle4Angle = ankle4.motor.targetVelocity;
-        ankle4Force = ankle4.motor.force;
+        lizardBody = GetComponent<Rigidbody>();
+        thigh1Motor = thigh1.motor;
+        thigh2Motor = thigh2.motor;
+        thigh3Motor = thigh3.motor;
+        thigh4Motor = thigh4.motor;
+
+        ankle1Motor = ankle1.motor;
+        ankle2Motor = ankle2.motor;
+        ankle3Motor = ankle3.motor;
+        ankle4Motor = ankle4.motor;
         
         lizardBrain = new int[numChunks, numBlocks, numNeurons];
         for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
             for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
                 for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
-                    lizardBrain[brainChunk, brainBlock, brainNeuron] = smartestLizardBrain[brainChunk, brainBlock, brainNeuron];
+                    lizardBrain[brainChunk, brainBlock, brainNeuron] = memoryScript.Brain[brainChunk, brainBlock, brainNeuron];
                 }
             }
         }
 
         currentChunk = 0;
-        lizardChild++;
         
         for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
             for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
@@ -177,11 +185,12 @@ public class Script : MonoBehaviour
         }
         if (fruitTime >= 60f) {
             //die, next species
+            storeNewChampion();
+            SceneManager.LoadScene("inSimulation");
         }
-        if (changeTime >= 2.0f) {
-            Debug.Log("Next Action...");
+        if (changeTime >= 0.5f) {
             renderNextAction();
-            changeTime -= 2.0f;
+            changeTime -= 0.5f;
         }
     }
 }

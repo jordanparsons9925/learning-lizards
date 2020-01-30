@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.4964127, b: 0.57481724, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -926,6 +926,7 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
+  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -966,7 +967,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 23
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -991,13 +992,26 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 6.24, y: 1.71, z: 2.1}
+  m_LocalRotation: {x: -0.06696199, y: 0.5150826, z: -0.040449884, w: -0.853563}
+  m_LocalPosition: {x: 10.631, y: 3.206, z: -3.808}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &963194229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0220ca3418a41344a8a8ce4f2b4e3d6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lizardBody: {fileID: 2133935739}
 --- !u!1 &1223634377
 GameObject:
   m_ObjectHideFlags: 0
@@ -1891,8 +1905,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1982609795}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.01, y: -0.31, z: -0.99411523}
-  m_LocalScale: {x: 40, y: 0.2, z: 40}
+  m_LocalPosition: {x: -0.01, y: -0.31, z: 17.19}
+  m_LocalScale: {x: 40, y: 0.2, z: 118.75}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -2164,27 +2178,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63b97ec15bdf9ae42ab3cca66b44641e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  variableMemory: {fileID: 7593022672446702593, guid: f3ead472e269c9b4a975d9e1700d95b5,
+    type: 3}
+  lizardBody: {fileID: 0}
   thigh1: {fileID: 2011894165}
-  thigh1Angle: 0
-  thigh1Force: 0
+  thigh1Body: {fileID: 2011894164}
   thigh2: {fileID: 188836245}
-  thigh2Angle: 0
-  thigh2Force: 0
+  thigh2Body: {fileID: 188836244}
   thigh3: {fileID: 1654020544}
-  thigh3Angle: 0
-  thigh3Force: 0
+  thigh3Body: {fileID: 1654020543}
   thigh4: {fileID: 1601017172}
-  thigh4Angle: 0
-  thigh4Force: 0
+  thigh4Body: {fileID: 1601017171}
   ankle1: {fileID: 493857530}
-  ankle1Angle: 0
-  ankle1Force: 0
+  ankle1Body: {fileID: 493857531}
   ankle2: {fileID: 1480514676}
-  ankle2Angle: 0
-  ankle2Force: 0
+  ankle2Body: {fileID: 1480514675}
   ankle3: {fileID: 625299640}
-  ankle3Angle: 0
-  ankle3Force: 0
+  ankle3Body: {fileID: 625299639}
   ankle4: {fileID: 290880395}
-  ankle4Angle: 0
-  ankle4Force: 0
+  ankle4Body: {fileID: 290880394}
