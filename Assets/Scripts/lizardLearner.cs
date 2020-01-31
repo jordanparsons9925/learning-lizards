@@ -34,6 +34,7 @@ public class lizardLearner : MonoBehaviour
     public HingeJoint ankle4;
     public Rigidbody ankle4Body;
     public JointMotor ankle4Motor;
+
     //variables for setting up the lizards
     static public float lifeSpan = 300f; //Lifespan of lizard in seconds
     private float changeTime = 0.0f;
@@ -42,7 +43,10 @@ public class lizardLearner : MonoBehaviour
     private int limbLimit = 90;
     private int forceLimit = 200;
     private int childrenPerGen;
-    private int mutationLevel = 10;
+    private int mutationLevel = 40;
+    private int mutationFraction = 4;
+    private int mutationCounter;
+    private bool chunkMutated;
     static public int numChunks = (int) lifeSpan * 4; //The half-second patterns
     static public int numBlocks = 8; //The parts of the body moved per chunk
     static public int numNeurons = 2; //The angle and strength of movement
@@ -52,7 +56,7 @@ public class lizardLearner : MonoBehaviour
     private int currentChunk;
     private int groundCounter;
     public float newTimeDistance;
-    public float lizardDistance;
+    public float lizardScore;
 
     public void setTime (float newTime) {
         Time.timeScale = newTime;
@@ -113,16 +117,28 @@ public class lizardLearner : MonoBehaviour
             memoryScript.Child = 1;
             memoryScript.nextGeneration();
         }
-        lizardDistance = memoryScript.currentDistance;
-        if (lizardDistance > memoryScript.longestDistance) {
+        lizardScore = memoryScript.currentDistance;
+        if  (memoryScript.footTraffic > memoryScript.mostTraffic) {
+            for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
+                for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
+                    for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
+                        memoryScript.FootyBrain[brainChunk, brainBlock, brainNeuron] = lizardBrain[brainChunk,brainBlock, brainNeuron];
+                    }
+                }
+            }
+            memoryScript.mostTraffic = memoryScript.footTraffic;
+            memoryScript.footyUsedChunks = (int) (numChunks  * (lifeTime / lifeSpan));
+        }
+        else if (lizardScore > memoryScript.highestScore) {
             for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
                 for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
                     for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
                         memoryScript.BestBrain[brainChunk, brainBlock, brainNeuron] = lizardBrain[brainChunk,brainBlock, brainNeuron];
+                    }
                 }
             }
-            memoryScript.longestDistance = lizardDistance;
-        }
+            memoryScript.highestScore = lizardScore;
+            memoryScript.smartestUsedChunks = (int) (numChunks  * (lifeTime / lifeSpan));
         }
         SceneManager.LoadScene("inSimulation");
     }
@@ -136,6 +152,7 @@ public class lizardLearner : MonoBehaviour
     void Start()
     {
         groundCounter = 0;
+        mutationCounter = 0;
         newTimeDistance = 0;
         memoryScript.currentDistance = 0;
         childrenPerGen = memoryScript.childrenPerGen;
@@ -163,36 +180,45 @@ public class lizardLearner : MonoBehaviour
 
         currentChunk = 0;
         
-        for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
-            for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
+        for (int brainChunk = 0; brainChunk < memoryScript.parentUsedChunks; brainChunk++) {
+            if (mutationCounter < memoryScript.parentUsedChunks / mutationFraction) {
+                chunkMutated = false;
+                for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
+                    if (!chunkMutated) {
+                        int doMutation = Random.Range(0, 2);
+                        if (doMutation == 1) {
+                                //generate a random amount of mutation
+                                int changeAmount = Random.Range((-1)*mutationLevel, mutationLevel);
+                                //check if angle is too high when increasing
+                                if (changeAmount > 0 && lizardBrain[brainChunk, brainBlock, 0] < limbLimit)
+                                    lizardBrain[brainChunk, brainBlock, 0] += changeAmount;
+                                //checks if angle is too low when decreasing
+                                else if (changeAmount < 0 && lizardBrain[brainChunk,brainBlock, 0] > (-1)*limbLimit)
+                                    lizardBrain[brainChunk, brainBlock, 0] += changeAmount;
 
-                //generate a random amount of mutation
-                int changeAmount = Random.Range((-1)*mutationLevel, mutationLevel);
-                //check if angle is too high when increasing
-                if (changeAmount > 0 && lizardBrain[brainChunk, brainBlock, 0] < limbLimit)
-                    lizardBrain[brainChunk, brainBlock, 0] += changeAmount;
-                //checks if angle is too low when decreasing
-                else if (changeAmount < 0 && lizardBrain[brainChunk,brainBlock, 0] > (-1)*limbLimit)
-                    lizardBrain[brainChunk, brainBlock, 0] += changeAmount;
+                                if (lizardBrain[brainChunk, brainBlock, 0] > limbLimit)
+                                    lizardBrain[brainChunk, brainBlock, 0] = limbLimit;
+                                else if (lizardBrain[brainChunk, brainBlock, 0] < (-1)*limbLimit)
+                                    lizardBrain[brainChunk, brainBlock, 0] = -1*limbLimit;
+                                
+                                //generate a random amount of mutation
+                                changeAmount = Random.Range((-1)*mutationLevel, mutationLevel);
+                                //check if force is too high when increasing
+                                if (changeAmount > 0 && lizardBrain[brainChunk, brainBlock, 1] < forceLimit)
+                                    lizardBrain[brainChunk, brainBlock, 1] += changeAmount;
+                                //checks if force is too low when decreasing
+                                else if (changeAmount < 0 && lizardBrain[brainChunk,brainBlock, 1] > 0)
+                                    lizardBrain[brainChunk, brainBlock, 1] += changeAmount;
 
-                if (lizardBrain[brainChunk, brainBlock, 0] > limbLimit)
-                    lizardBrain[brainChunk, brainBlock, 0] = limbLimit;
-                else if (lizardBrain[brainChunk, brainBlock, 0] < (-1)*limbLimit)
-                    lizardBrain[brainChunk, brainBlock, 0] = -1*limbLimit;
-                
-                //generate a random amount of mutation
-                changeAmount = Random.Range((-1)*mutationLevel, mutationLevel);
-                //check if force is too high when increasing
-                if (changeAmount > 0 && lizardBrain[brainChunk, brainBlock, 1] < forceLimit)
-                    lizardBrain[brainChunk, brainBlock, 1] += changeAmount;
-                //checks if force is too low when decreasing
-                else if (changeAmount < 0 && lizardBrain[brainChunk,brainBlock, 1] > 0)
-                    lizardBrain[brainChunk, brainBlock, 1] += changeAmount;
-
-                if (lizardBrain[brainChunk, brainBlock, 1] > forceLimit)
-                    lizardBrain[brainChunk, brainBlock, 1] = forceLimit;
-                else if (lizardBrain[brainChunk, brainBlock, 1] < 0)
-                    lizardBrain[brainChunk, brainBlock, 1] = 0;
+                                if (lizardBrain[brainChunk, brainBlock, 1] > forceLimit)
+                                    lizardBrain[brainChunk, brainBlock, 1] = forceLimit;
+                                else if (lizardBrain[brainChunk, brainBlock, 1] < 0)
+                                    lizardBrain[brainChunk, brainBlock, 1] = 0;
+                            chunkMutated = true;
+                            mutationCounter++;
+                        }
+                    }
+                }
             }
         }
 
@@ -228,11 +254,12 @@ public class lizardLearner : MonoBehaviour
     }
 
     void OnCollisionStay(Collision other) {
-        if (groundCounter++ >= 60)
+        if (other.gameObject.name == "ground" & groundCounter++ >= 30)
             nextChild();
     }
 
     void OnCollisionExit(Collision other) {
-        groundCounter = 0;
+        if (other.gameObject.name == "ground")
+            groundCounter = 0;
     }
 }

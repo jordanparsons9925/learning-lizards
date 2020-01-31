@@ -19,6 +19,6 @@ public class displaySpeed : MonoBehaviour
     {
         float roundSpeed = (float) ((int) (Time.timeScale * 100)) / 100;
         speedDisplay.text = "Speed: " + roundSpeed;
-        scoreDisplay.text = "High Score: " + memoryScript.longestDistance;
+        scoreDisplay.text = "Distance: " + memoryScript.highestScore;
     }
 }
