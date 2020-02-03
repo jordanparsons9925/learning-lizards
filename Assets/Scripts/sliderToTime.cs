@@ -26,6 +26,6 @@ public class sliderToTime : MonoBehaviour
         Time.timeScale = 0.0f;
     }
     public void hyperTime() {
-        Time.timeScale = 20.0f;
+        Time.timeScale = 50.0f;
     }
 }

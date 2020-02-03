@@ -40,10 +40,10 @@ public class lizardLearner : MonoBehaviour
     private float changeTime = 0.0f;
     private float fruitTime = 0.0f;
     private float lifeTime = 0.0f;
-    private int limbLimit = 90;
+    private int limbLimit = 25;
     private int forceLimit = 200;
     private int childrenPerGen;
-    private int mutationLevel = 40;
+    private int mutationLevel = 11;
     private int mutationFraction = 4;
     private int mutationCounter;
     private bool chunkMutated;
@@ -66,11 +66,11 @@ public class lizardLearner : MonoBehaviour
         //assigns the neurons to the associated motor angle and force
         thigh1Motor.targetVelocity = lizardBrain[currentChunk, 0, 0];
         thigh1Motor.force = lizardBrain[currentChunk, 0, 1];
-        thigh4Motor.targetVelocity= lizardBrain[currentChunk, 3, 0];
+        thigh4Motor.targetVelocity= (-1) * lizardBrain[currentChunk, 3, 0];
         thigh4Motor.force = lizardBrain[currentChunk, 3, 1];
         ankle1Motor.targetVelocity = lizardBrain[currentChunk, 4, 0];
         ankle1Motor.force = lizardBrain[currentChunk, 4, 1];
-        ankle4Motor.targetVelocity = lizardBrain[currentChunk, 7, 0];
+        ankle4Motor.targetVelocity = (-1) * lizardBrain[currentChunk, 7, 0];
         ankle4Motor.force = lizardBrain[currentChunk, 7, 1];
 
         thigh1.motor = thigh1Motor;
@@ -90,11 +90,11 @@ public class lizardLearner : MonoBehaviour
         //assigns the neurons to the associated motor angle and force
         thigh2Motor.targetVelocity = lizardBrain[currentChunk, 1, 0];
         thigh2Motor.force = lizardBrain[currentChunk, 1, 1];
-        thigh3Motor.targetVelocity = lizardBrain[currentChunk, 2, 0];
+        thigh3Motor.targetVelocity = (-1) * lizardBrain[currentChunk, 2, 0];
         thigh3Motor.force = lizardBrain[currentChunk, 2, 1];
         ankle2Motor.targetVelocity = lizardBrain[currentChunk, 5, 0];
         ankle2Motor.force = lizardBrain[currentChunk, 5, 1];
-        ankle3Motor.targetVelocity = lizardBrain[currentChunk, 6, 0];
+        ankle3Motor.targetVelocity = (-1) * lizardBrain[currentChunk, 6, 0];
         ankle3Motor.force = lizardBrain[currentChunk++, 6, 1];
 
         thigh2.motor = thigh2Motor;
@@ -188,21 +188,21 @@ public class lizardLearner : MonoBehaviour
                         int doMutation = Random.Range(0, 2);
                         if (doMutation == 1) {
                                 //generate a random amount of mutation
-                                int changeAmount = Random.Range((-1)*mutationLevel, mutationLevel);
+                                int changeAmount = Random.Range((-1)*(mutationLevel-1), mutationLevel);
                                 //check if angle is too high when increasing
                                 if (changeAmount > 0 && lizardBrain[brainChunk, brainBlock, 0] < limbLimit)
                                     lizardBrain[brainChunk, brainBlock, 0] += changeAmount;
                                 //checks if angle is too low when decreasing
-                                else if (changeAmount < 0 && lizardBrain[brainChunk,brainBlock, 0] > (-1)*limbLimit)
+                                else if (changeAmount < 0 && lizardBrain[brainChunk,brainBlock, 0] > 0)
                                     lizardBrain[brainChunk, brainBlock, 0] += changeAmount;
 
                                 if (lizardBrain[brainChunk, brainBlock, 0] > limbLimit)
                                     lizardBrain[brainChunk, brainBlock, 0] = limbLimit;
-                                else if (lizardBrain[brainChunk, brainBlock, 0] < (-1)*limbLimit)
+                                else if (lizardBrain[brainChunk, brainBlock, 0] < 0)
                                     lizardBrain[brainChunk, brainBlock, 0] = -1*limbLimit;
                                 
                                 //generate a random amount of mutation
-                                changeAmount = Random.Range((-1)*mutationLevel, mutationLevel);
+                                changeAmount = Random.Range((-1)*(mutationLevel-1), mutationLevel);
                                 //check if force is too high when increasing
                                 if (changeAmount > 0 && lizardBrain[brainChunk, brainBlock, 1] < forceLimit)
                                     lizardBrain[brainChunk, brainBlock, 1] += changeAmount;
@@ -231,7 +231,7 @@ public class lizardLearner : MonoBehaviour
         lifeTime += Time.deltaTime;
         fruitTime += Time.deltaTime;
         changeTime += Time.deltaTime;
-        if (newTimeDistance != memoryScript.currentDistance) {
+        if (newTimeDistance > memoryScript.currentDistance) {
             fruitTime = 0.0f;
             newTimeDistance = memoryScript.currentDistance;
         }
@@ -240,7 +240,7 @@ public class lizardLearner : MonoBehaviour
             //die, next species
             nextChild();
         }
-        if (fruitTime >= 30f) {
+        if (fruitTime >= 60f) {
             //die, next species
             nextChild();
         }
@@ -254,7 +254,7 @@ public class lizardLearner : MonoBehaviour
     }
 
     void OnCollisionStay(Collision other) {
-        if (other.gameObject.name == "ground" & groundCounter++ >= 30)
+        if (other.gameObject.name == "ground" & groundCounter++ >= 600)
             nextChild();
     }
 
