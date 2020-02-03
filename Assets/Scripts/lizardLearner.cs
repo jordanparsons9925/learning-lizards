@@ -171,9 +171,19 @@ public class lizardLearner : MonoBehaviour
         
         lizardBrain = new int[numChunks, numBlocks, numNeurons];
         for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
-            for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
-                for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
-                    lizardBrain[brainChunk, brainBlock, brainNeuron] = memoryScript.ParentBrain[brainChunk, brainBlock, brainNeuron];
+            // this is where the two champions breed.
+            int whichBrain = Random.Range(0, 2);
+            if (whichBrain == 0) {
+                for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
+                    for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
+                        lizardBrain[brainChunk, brainBlock, brainNeuron] = memoryScript.BestParent[brainChunk, brainBlock, brainNeuron];
+                    }
+                }
+            } else {
+                for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
+                    for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
+                        lizardBrain[brainChunk, brainBlock, brainNeuron] = memoryScript.FootyParent[brainChunk, brainBlock, brainNeuron];
+                    }
                 }
             }
         }
@@ -253,7 +263,7 @@ public class lizardLearner : MonoBehaviour
         }
     }
 
-    void OnCollisionStay(Collision other) {
+    /*void OnCollisionStay(Collision other) {
         if (other.gameObject.name == "ground" & groundCounter++ >= 600)
             nextChild();
     }
@@ -261,5 +271,5 @@ public class lizardLearner : MonoBehaviour
     void OnCollisionExit(Collision other) {
         if (other.gameObject.name == "ground")
             groundCounter = 0;
-    }
+    }*/
 }

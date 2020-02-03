@@ -15,8 +15,7 @@ public class sliderToTime : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.timeScale <= 50)
-            timeSlider.value = Time.timeScale;
+        timeSlider.value = Time.timeScale;
     }
 
     public void resetTime() {
@@ -26,6 +25,6 @@ public class sliderToTime : MonoBehaviour
         Time.timeScale = 0.0f;
     }
     public void hyperTime() {
-        Time.timeScale = 50.0f;
+        Time.timeScale = 100.0f;
     }
 }
