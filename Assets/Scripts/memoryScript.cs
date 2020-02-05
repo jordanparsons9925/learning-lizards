@@ -153,7 +153,7 @@ public static class memoryScript
             }
         }
         parentUsedChunks = (smartestUsedChunks + footyUsedChunks) / 2;
-        highestScore = 0;
-        mostTraffic = 0;
+        /*highestScore = 0;
+        mostTraffic = 0;*/
     }
 }

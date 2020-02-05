@@ -118,7 +118,7 @@ public class lizardLearner : MonoBehaviour
             memoryScript.nextGeneration();
         }
         lizardScore = memoryScript.currentDistance;
-        if  (memoryScript.footTraffic > memoryScript.mostTraffic) {
+        if  (memoryScript.footTraffic >= memoryScript.mostTraffic) {
             for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
                 for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
                     for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
@@ -129,7 +129,7 @@ public class lizardLearner : MonoBehaviour
             memoryScript.mostTraffic = memoryScript.footTraffic;
             memoryScript.footyUsedChunks = (int) (numChunks  * (lifeTime / lifeSpan));
         }
-        else if (lizardScore > memoryScript.highestScore) {
+        else if (lizardScore >= memoryScript.highestScore) {
             for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
                 for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
                     for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
