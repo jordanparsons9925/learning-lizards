@@ -41,7 +41,6 @@ public class lizardLearner : MonoBehaviour
     private float fruitTime = 0.0f;
     private float lifeTime = 0.0f;
     private int childrenPerGen;
-    private bool chunkMutated;
     static public int numChunks = (int) lifeSpan * 2; //The second patterns
     static public int numBlocks = 8; //The parts of the body moved per chunk
     
@@ -169,11 +168,10 @@ public class lizardLearner : MonoBehaviour
         currentChunk = 0;
         
         for (int brainChunk = 0; brainChunk < memoryScript.parentUsedChunks; brainChunk++) {
-            chunkMutated = false;
             for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
                 if (!chunkMutated) {
                     int doMutation = Random.Range(0, 3);
-                    if (doMutation == 1) {
+                    if (doMutation == 0) {
                         int changeAmount = Random.Range(-1, 2);
                         if (changeAmount == -1) {
                             lizardBrain[brainChunk, brainBlock] = -50;
@@ -183,8 +181,6 @@ public class lizardLearner : MonoBehaviour
                         } else {
                             lizardBrain[brainChunk, brainBlock] = 0;
                         }
-
-                        chunkMutated = true;
                     }
                 }
             }
