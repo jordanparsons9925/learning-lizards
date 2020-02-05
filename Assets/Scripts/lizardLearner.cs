@@ -169,18 +169,16 @@ public class lizardLearner : MonoBehaviour
         
         for (int brainChunk = 0; brainChunk < memoryScript.parentUsedChunks; brainChunk++) {
             for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
-                if (!chunkMutated) {
-                    int doMutation = Random.Range(0, 3);
-                    if (doMutation == 0) {
-                        int changeAmount = Random.Range(-1, 2);
-                        if (changeAmount == -1) {
-                            lizardBrain[brainChunk, brainBlock] = -50;
-                        }
-                        else if (changeAmount == 1) {
-                                lizardBrain[brainChunk, brainBlock] = 50;
-                        } else {
-                            lizardBrain[brainChunk, brainBlock] = 0;
-                        }
+                int doMutation = Random.Range(0, 3);
+                if (doMutation == 0) {
+                    int changeAmount = Random.Range(-1, 2);
+                    if (changeAmount == -1) {
+                        lizardBrain[brainChunk, brainBlock] = -50;
+                    }
+                    else if (changeAmount == 1) {
+                        lizardBrain[brainChunk, brainBlock] = 50;
+                    } else {
+                        lizardBrain[brainChunk, brainBlock] = 0;
                     }
                 }
             }
