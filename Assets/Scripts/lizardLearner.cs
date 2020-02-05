@@ -195,7 +195,7 @@ public class lizardLearner : MonoBehaviour
                 chunkMutated = false;
                 for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
                     if (!chunkMutated) {
-                        int doMutation = Random.Range(0, 2);
+                        int doMutation = Random.Range(-2, 2);
                         if (doMutation == 1) {
                                 //generate a random amount of mutation
                                 int changeAmount = Random.Range((-1)*(mutationLevel-1), mutationLevel);
