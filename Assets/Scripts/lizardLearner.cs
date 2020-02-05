@@ -42,7 +42,7 @@ public class lizardLearner : MonoBehaviour
     private float lifeTime = 0.0f;
     private int childrenPerGen;
     private bool chunkMutated;
-    static public int numChunks = (int) lifeSpan * 4; //The half-second patterns
+    static public int numChunks = (int) lifeSpan * 2; //The second patterns
     static public int numBlocks = 8; //The parts of the body moved per chunk
     
     //data for lizard brains
@@ -79,6 +79,7 @@ public class lizardLearner : MonoBehaviour
     void renderNextActionB () {
         //assigns the neurons to the associated motor angle and force
         thigh2Motor.targetVelocity = lizardBrain[currentChunk, 1] - ((int) thigh2.angle);
+        Debug.Log((int) thigh1.angle);
         thigh3Motor.targetVelocity = lizardBrain[currentChunk, 2] - ((int) thigh3.angle);
         ankle2Motor.targetVelocity = lizardBrain[currentChunk, 5] - ((int) ankle2.angle);
         ankle3Motor.targetVelocity = lizardBrain[currentChunk, 6] - ((int) ankle3.angle);
@@ -211,12 +212,12 @@ public class lizardLearner : MonoBehaviour
             //die, next species
             nextChild();
         }
-        if (changeTime >= 0.5f) {
+        if (changeTime >= 1f) {
             renderNextActionA();
         }
-        if (changeTime >= 1.0f) {
+        if (changeTime >= 2.0f) {
             renderNextActionB();
-            changeTime -= 1.0f;
+            changeTime -= 2.0f;
         }
     }
 
