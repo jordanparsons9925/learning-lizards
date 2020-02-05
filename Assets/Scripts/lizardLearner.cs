@@ -40,19 +40,13 @@ public class lizardLearner : MonoBehaviour
     private float changeTime = 0.0f;
     private float fruitTime = 0.0f;
     private float lifeTime = 0.0f;
-    private int limbLimit = 25;
-    private int forceLimit = 200;
     private int childrenPerGen;
-    private int mutationLevel = 11;
-    private int mutationFraction = 4;
-    private int mutationCounter;
     private bool chunkMutated;
     static public int numChunks = (int) lifeSpan * 4; //The half-second patterns
     static public int numBlocks = 8; //The parts of the body moved per chunk
-    static public int numNeurons = 2; //The angle and strength of movement
     
     //data for lizard brains
-    private int[, ,] lizardBrain;
+    private int[,] lizardBrain;
     private int currentChunk;
     private int groundCounter;
     public float newTimeDistance;
@@ -64,14 +58,10 @@ public class lizardLearner : MonoBehaviour
 
     void renderNextActionA () {
         //assigns the neurons to the associated motor angle and force
-        thigh1Motor.targetVelocity = lizardBrain[currentChunk, 0, 0];
-        thigh1Motor.force = lizardBrain[currentChunk, 0, 1];
-        thigh4Motor.targetVelocity= (-1) * lizardBrain[currentChunk, 3, 0];
-        thigh4Motor.force = lizardBrain[currentChunk, 3, 1];
-        ankle1Motor.targetVelocity = lizardBrain[currentChunk, 4, 0];
-        ankle1Motor.force = lizardBrain[currentChunk, 4, 1];
-        ankle4Motor.targetVelocity = (-1) * lizardBrain[currentChunk, 7, 0];
-        ankle4Motor.force = lizardBrain[currentChunk, 7, 1];
+        thigh1Motor.targetVelocity = lizardBrain[currentChunk, 0] - ((int) thigh1.angle);
+        thigh4Motor.targetVelocity = lizardBrain[currentChunk, 3] - ((int) thigh4.angle);
+        ankle1Motor.targetVelocity = lizardBrain[currentChunk, 4] - ((int) ankle1.angle);
+        ankle4Motor.targetVelocity = lizardBrain[currentChunk, 7] - ((int) ankle4.angle);
 
         thigh1.motor = thigh1Motor;
         thigh4.motor = thigh4Motor;
@@ -88,14 +78,10 @@ public class lizardLearner : MonoBehaviour
     }
     void renderNextActionB () {
         //assigns the neurons to the associated motor angle and force
-        thigh2Motor.targetVelocity = lizardBrain[currentChunk, 1, 0];
-        thigh2Motor.force = lizardBrain[currentChunk, 1, 1];
-        thigh3Motor.targetVelocity = (-1) * lizardBrain[currentChunk, 2, 0];
-        thigh3Motor.force = lizardBrain[currentChunk, 2, 1];
-        ankle2Motor.targetVelocity = lizardBrain[currentChunk, 5, 0];
-        ankle2Motor.force = lizardBrain[currentChunk, 5, 1];
-        ankle3Motor.targetVelocity = (-1) * lizardBrain[currentChunk, 6, 0];
-        ankle3Motor.force = lizardBrain[currentChunk++, 6, 1];
+        thigh2Motor.targetVelocity = lizardBrain[currentChunk, 1] - ((int) thigh2.angle);
+        thigh3Motor.targetVelocity = lizardBrain[currentChunk, 2] - ((int) thigh3.angle);
+        ankle2Motor.targetVelocity = lizardBrain[currentChunk, 5] - ((int) ankle2.angle);
+        ankle3Motor.targetVelocity = lizardBrain[currentChunk, 6] - ((int) ankle3.angle);
 
         thigh2.motor = thigh2Motor;
         thigh3.motor = thigh3Motor;
@@ -121,20 +107,16 @@ public class lizardLearner : MonoBehaviour
         if  (memoryScript.footTraffic >= memoryScript.mostTraffic) {
             for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
                 for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
-                    for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
-                        memoryScript.FootyBrain[brainChunk, brainBlock, brainNeuron] = lizardBrain[brainChunk,brainBlock, brainNeuron];
-                    }
+                    memoryScript.FootyBrain[brainChunk, brainBlock] = lizardBrain[brainChunk,brainBlock];
                 }
             }
             memoryScript.mostTraffic = memoryScript.footTraffic;
             memoryScript.footyUsedChunks = (int) (numChunks  * (lifeTime / lifeSpan));
         }
-        else if (lizardScore >= memoryScript.highestScore) {
+        if (lizardScore >= memoryScript.highestScore) {
             for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
                 for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
-                    for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
-                        memoryScript.BestBrain[brainChunk, brainBlock, brainNeuron] = lizardBrain[brainChunk,brainBlock, brainNeuron];
-                    }
+                    memoryScript.BestBrain[brainChunk, brainBlock] = lizardBrain[brainChunk,brainBlock];
                 }
             }
             memoryScript.highestScore = lizardScore;
@@ -152,7 +134,6 @@ public class lizardLearner : MonoBehaviour
     void Start()
     {
         groundCounter = 0;
-        mutationCounter = 0;
         newTimeDistance = 0;
         memoryScript.currentDistance = 0;
         childrenPerGen = memoryScript.childrenPerGen;
@@ -169,21 +150,17 @@ public class lizardLearner : MonoBehaviour
         ankle3Motor = ankle3.motor;
         ankle4Motor = ankle4.motor;
         
-        lizardBrain = new int[numChunks, numBlocks, numNeurons];
+        lizardBrain = new int[numChunks, numBlocks];
         for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
             // this is where the two champions breed.
             int whichBrain = Random.Range(0, 2);
             if (whichBrain == 0) {
                 for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
-                    for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
-                        lizardBrain[brainChunk, brainBlock, brainNeuron] = memoryScript.BestParent[brainChunk, brainBlock, brainNeuron];
-                    }
+                    lizardBrain[brainChunk, brainBlock] = memoryScript.BestParent[brainChunk, brainBlock];
                 }
             } else {
                 for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
-                    for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
-                        lizardBrain[brainChunk, brainBlock, brainNeuron] = memoryScript.FootyParent[brainChunk, brainBlock, brainNeuron];
-                    }
+                    lizardBrain[brainChunk, brainBlock] = memoryScript.FootyParent[brainChunk, brainBlock];
                 }
             }
         }
@@ -191,42 +168,22 @@ public class lizardLearner : MonoBehaviour
         currentChunk = 0;
         
         for (int brainChunk = 0; brainChunk < memoryScript.parentUsedChunks; brainChunk++) {
-            if (mutationCounter < memoryScript.parentUsedChunks / mutationFraction) {
-                chunkMutated = false;
-                for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
-                    if (!chunkMutated) {
-                        int doMutation = Random.Range(-2, 2);
-                        if (doMutation == 1) {
-                                //generate a random amount of mutation
-                                int changeAmount = Random.Range((-1)*(mutationLevel-1), mutationLevel);
-                                //check if angle is too high when increasing
-                                if (changeAmount > 0 && lizardBrain[brainChunk, brainBlock, 0] < limbLimit)
-                                    lizardBrain[brainChunk, brainBlock, 0] += changeAmount;
-                                //checks if angle is too low when decreasing
-                                else if (changeAmount < 0 && lizardBrain[brainChunk,brainBlock, 0] > 0)
-                                    lizardBrain[brainChunk, brainBlock, 0] += changeAmount;
-
-                                if (lizardBrain[brainChunk, brainBlock, 0] > limbLimit)
-                                    lizardBrain[brainChunk, brainBlock, 0] = limbLimit;
-                                else if (lizardBrain[brainChunk, brainBlock, 0] < 0)
-                                    lizardBrain[brainChunk, brainBlock, 0] = -1*limbLimit;
-                                
-                                //generate a random amount of mutation
-                                changeAmount = Random.Range((-1)*(mutationLevel-1), mutationLevel);
-                                //check if force is too high when increasing
-                                if (changeAmount > 0 && lizardBrain[brainChunk, brainBlock, 1] < forceLimit)
-                                    lizardBrain[brainChunk, brainBlock, 1] += changeAmount;
-                                //checks if force is too low when decreasing
-                                else if (changeAmount < 0 && lizardBrain[brainChunk,brainBlock, 1] > 0)
-                                    lizardBrain[brainChunk, brainBlock, 1] += changeAmount;
-
-                                if (lizardBrain[brainChunk, brainBlock, 1] > forceLimit)
-                                    lizardBrain[brainChunk, brainBlock, 1] = forceLimit;
-                                else if (lizardBrain[brainChunk, brainBlock, 1] < 0)
-                                    lizardBrain[brainChunk, brainBlock, 1] = 0;
-                            chunkMutated = true;
-                            mutationCounter++;
+            chunkMutated = false;
+            for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
+                if (!chunkMutated) {
+                    int doMutation = Random.Range(0, 3);
+                    if (doMutation == 1) {
+                        int changeAmount = Random.Range(-1, 2);
+                        if (changeAmount == -1) {
+                            lizardBrain[brainChunk, brainBlock] = -50;
                         }
+                        else if (changeAmount == 1) {
+                                lizardBrain[brainChunk, brainBlock] = 50;
+                        } else {
+                            lizardBrain[brainChunk, brainBlock] = 0;
+                        }
+
+                        chunkMutated = true;
                     }
                 }
             }
@@ -250,7 +207,7 @@ public class lizardLearner : MonoBehaviour
             //die, next species
             nextChild();
         }
-        if (fruitTime >= 60f) {
+        if (fruitTime >= 30f) {
             //die, next species
             nextChild();
         }

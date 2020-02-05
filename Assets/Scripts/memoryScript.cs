@@ -7,14 +7,13 @@ public static class memoryScript
 {
     public static int numChunks;
     public static int numBlocks;
-    public static int numNeurons;
     public static int childrenPerGen = 10;
     private static int lizardChild = 1;
     private static int lizardGeneration;
-    private static int[, ,] smartestParent;
-    private static int[, ,] smartestLizard;
-    private static int[, ,] footyParent;
-    private static int[, ,] footyLizard;
+    private static int[,] smartestParent;
+    private static int[,] smartestLizard;
+    private static int[,] footyParent;
+    private static int[,] footyLizard;
     public static float currentDistance;
     public static int footTraffic;
     public static float highestScore;
@@ -35,7 +34,7 @@ public static class memoryScript
         }
     }
 
-    public static int[, ,] ParentBrain
+    public static int[,] ParentBrain
     {
         get 
         {
@@ -47,7 +46,7 @@ public static class memoryScript
         }
     }
 
-    public static int[, ,] BestBrain
+    public static int[,] BestBrain
     {
         get 
         {
@@ -58,7 +57,7 @@ public static class memoryScript
             smartestLizard = value;
         }
     }
-    public static int[, ,] FootyBrain
+    public static int[,] FootyBrain
     {
         get 
         {
@@ -70,7 +69,7 @@ public static class memoryScript
         }
     }
 
-    public static int[, ,] BestParent
+    public static int[,] BestParent
     {
         get 
         {
@@ -81,7 +80,7 @@ public static class memoryScript
             smartestParent = value;
         }
     }
-    public static int[, ,] FootyParent
+    public static int[,] FootyParent
     {
         get 
         {
@@ -108,12 +107,11 @@ public static class memoryScript
     static memoryScript() {
         numChunks = lizardLearner.numChunks;
         numBlocks = lizardLearner.numBlocks;
-        numNeurons = lizardLearner.numNeurons;
 
-        smartestParent = new int[numChunks, numBlocks, numNeurons];
-        smartestLizard = new int[numChunks, numBlocks, numNeurons];
-        footyParent = new int[numChunks, numBlocks, numNeurons];
-        footyLizard = new int[numChunks, numBlocks, numNeurons];
+        smartestParent = new int[numChunks, numBlocks];
+        smartestLizard = new int[numChunks, numBlocks];
+        footyParent = new int[numChunks, numBlocks];
+        footyLizard = new int[numChunks, numBlocks];
         lizardGeneration = 1;
         highestScore = 0;
         mostTraffic = 0;
@@ -123,16 +121,13 @@ public static class memoryScript
 
         for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
             for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
-                for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
-                    smartestParent[brainChunk, brainBlock, brainNeuron] = 0;
-                }
+                smartestParent[brainChunk, brainBlock] = 0;
             }
         }
+
         for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
             for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
-                for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
-                    footyParent[brainChunk, brainBlock, brainNeuron] = 0;
-                }
+                footyParent[brainChunk, brainBlock] = 0;
             }
         }
     }
@@ -140,20 +135,16 @@ public static class memoryScript
     public static void nextGeneration() {
         for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
             for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
-                for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
-                    smartestParent[brainChunk, brainBlock, brainNeuron] = smartestLizard[brainChunk, brainBlock, brainNeuron];
-                }
+                smartestParent[brainChunk, brainBlock] = smartestLizard[brainChunk, brainBlock];
             }
         }
         for (int brainChunk = 0; brainChunk < numChunks; brainChunk++) {
             for (int brainBlock = 0; brainBlock < numBlocks; brainBlock++) {
-                for (int brainNeuron = 0; brainNeuron < numNeurons; brainNeuron++) {
-                    footyParent[brainChunk, brainBlock, brainNeuron] = footyLizard[brainChunk, brainBlock, brainNeuron];
-                }
+                footyParent[brainChunk, brainBlock] = footyLizard[brainChunk, brainBlock];
             }
         }
         parentUsedChunks = (smartestUsedChunks + footyUsedChunks) / 2;
-        /*highestScore = 0;
-        mostTraffic = 0;*/
+        highestScore = 0;
+        mostTraffic = 0;
     }
 }
