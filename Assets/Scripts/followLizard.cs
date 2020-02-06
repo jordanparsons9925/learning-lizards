@@ -18,12 +18,9 @@ public class followLizard : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        trackerX = transform.position.x;
-        trackerY = transform.position.y;
+        trackerX = lizardBody.position.x;
+        trackerY = lizardBody.position.y;
         trackerZ = lizardBody.position.z;
         transform.position = new Vector3(trackerX, trackerY, trackerZ);
-        if (trackerZ > memoryScript.currentDistance) {
-            memoryScript.currentDistance = trackerZ;
-        }
     }
 }

@@ -46,39 +46,45 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\cameraFollow.cs" />
-     <Compile Include="Assets\Scripts\displaySpeed.cs" />
+     <Compile Include="Assets\Scripts\detectObjects.cs" />
      <Compile Include="Assets\Scripts\followLizard.cs" />
-     <Compile Include="Assets\Scripts\footCollide.cs" />
-     <Compile Include="Assets\Scripts\lizardLearner.cs" />
+     <Compile Include="Assets\Scripts\ignoreAll.cs" />
+     <Compile Include="Assets\Scripts\ignoreLizard.cs" />
      <Compile Include="Assets\Scripts\memoryScript.cs" />
-     <Compile Include="Assets\Scripts\sliderToTime.cs" />
-     <Compile Include="Assets\Scripts\writeBrain.cs" />
+     <Compile Include="Assets\Scripts\sightFollow.cs" />
+     <Compile Include="Assets\Scripts\wooperLearner.cs" />
  <Reference Include="Unity.Timeline.Editor">
- <HintPath>C:/Users/explo/Desktop/learning-lizards/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+ <HintPath>C:/Users/20145879/Desktop/My Repos/learning-lizards/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.VSCode.Editor">
- <HintPath>C:/Users/explo/Desktop/learning-lizards/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+ <HintPath>C:/Users/20145879/Desktop/My Repos/learning-lizards/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
+ <HintPath>C:/Users/20145879/Desktop/My Repos/learning-lizards/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro.Editor">
- <HintPath>C:/Users/explo/Desktop/learning-lizards/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+ <HintPath>C:/Users/20145879/Desktop/My Repos/learning-lizards/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>C:/Users/explo/Desktop/learning-lizards/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+ <HintPath>C:/Users/20145879/Desktop/My Repos/learning-lizards/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Timeline">
- <HintPath>C:/Users/explo/Desktop/learning-lizards/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+ <HintPath>C:/Users/20145879/Desktop/My Repos/learning-lizards/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
  </Reference>
  <Reference Include="Unity.CollabProxy.Editor">
- <HintPath>C:/Users/explo/Desktop/learning-lizards/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+ <HintPath>C:/Users/20145879/Desktop/My Repos/learning-lizards/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Rider.Editor">
- <HintPath>C:/Users/explo/Desktop/learning-lizards/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+ <HintPath>C:/Users/20145879/Desktop/My Repos/learning-lizards/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+ </Reference>
+ <Reference Include="Unity.ProBuilder.AddOns.Editor">
+ <HintPath>C:/Users/20145879/Desktop/My Repos/learning-lizards/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Unity.TextMeshPro">
- <HintPath>C:/Users/explo/Desktop/learning-lizards/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+ <HintPath>C:/Users/20145879/Desktop/My Repos/learning-lizards/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
- <HintPath>C:/Users/explo/Desktop/learning-lizards/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+ <HintPath>C:/Users/20145879/Desktop/My Repos/learning-lizards/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2019.2.19f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

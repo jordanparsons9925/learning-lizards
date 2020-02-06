@@ -18,8 +18,8 @@ public class cameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        trackerX = transform.position.x;
-        trackerY = transform.position.y;
+        trackerX = lizardTracker.position.x + 11.0200672f;
+        trackerY = lizardTracker.position.y + 3.473f;
         trackerZ = lizardTracker.position.z - 21.521f;
         transform.position = new Vector3(trackerX, trackerY, trackerZ);
     }

@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Lizard
+  - Ground
+  - bump1
+  - bump2
+  - nump3
+  - Sight
   layers:
   - Default
   - TransparentFX
@@ -13,8 +19,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Ground
+  - Sights
   - 
   - 
   - 
@@ -40,4 +46,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Ground
+    uniqueID: 1501813579
+    locked: 0
+  - name: Sights
+    uniqueID: 1158259349
     locked: 0
