@@ -16,11 +16,22 @@ public class detectObjects : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 10.0f)) {
+
+        }
     }
 
-    void OnCollisionEnter(Collision other) {
-        if (other.gameObject.tag != "Ground" && other.gameObject.tag != "Lizard" && other.gameObject.tag != "Sight")
+    void OnTriggerEnter(Collider other) {
+        if (other.gameObject.tag != "Ground" && other.gameObject.tag != "Lizard" && other.gameObject.tag != "Sight") {
+            Debug.Log("Collision Entered");
             wooper.GetComponent<wooperLearner>().changeBehaviour(other.gameObject.tag);
+        }
+    }
+    void OnTriggerExit(Collider other) {
+        if (other.gameObject.tag != "Ground" && other.gameObject.tag != "Lizard" && other.gameObject.tag != "Sight") {
+            Debug.Log("Left Collision");
+            wooper.GetComponent<wooperLearner>().changeBehaviour("Nothing");
+        }
     }
 }

@@ -391,7 +391,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh13818
+  m_Name: pb_Mesh14056
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2176,7 +2176,7 @@ GameObject:
   - component: {fileID: 1573376443}
   - component: {fileID: 1573376442}
   - component: {fileID: 1573376450}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: visionCone
   m_TagString: Sight
   m_Icon: {fileID: 0}
@@ -2487,7 +2487,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1573376439}
   m_LocalRotation: {x: -0.3374021, y: -0.6214176, z: 0.6112587, w: 0.35547554}
-  m_LocalPosition: {x: -0.8, y: 5.3, z: -11.809999}
+  m_LocalPosition: {x: -0.8, y: 1.05, z: -11.56}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3070,7 +3070,7 @@ GameObject:
   - component: {fileID: 1982609798}
   - component: {fileID: 1982609797}
   - component: {fileID: 1982609796}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ground
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -3365,7 +3365,7 @@ GameObject:
   - component: {fileID: 2133935740}
   - component: {fileID: 2133935741}
   - component: {fileID: 2133935742}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wooper_move
   m_TagString: Lizard
   m_Icon: {fileID: 0}
@@ -3439,7 +3439,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2133935735}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.31006718, y: 4.484, z: -13.78}
+  m_LocalPosition: {x: -0.31006718, y: 0.2340002, z: -13.78}
   m_LocalScale: {x: 0.85, y: 0.59, z: 0.82}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3459,7 +3459,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 16
   m_CollisionDetection: 0
 --- !u!114 &2133935741
 MonoBehaviour:
