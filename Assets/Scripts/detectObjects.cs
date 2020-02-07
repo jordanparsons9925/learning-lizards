@@ -20,6 +20,7 @@ public class detectObjects : MonoBehaviour
     }
 
     void OnCollisionEnter(Collision other) {
-        wooper.GetComponent<wooperLearner>().changeBehaviour(other.gameObject.tag);
+        if (other.gameObject.tag != "Ground" && other.gameObject.tag != "Lizard" && other.gameObject.tag != "Sight")
+            wooper.GetComponent<wooperLearner>().changeBehaviour(other.gameObject.tag);
     }
 }
