@@ -14,6 +14,10 @@ public class wooperLearner : MonoBehaviour
     private float actionTime;
     private float walkingSpeed;
     private int actionCounter;
+    int visionDistance;
+    bool hitDetected;
+    Collider wooperCollider;
+    RaycastHit rayHit;
 
     private void renderAction(int actionType, int direction) {
         switch (actionType) {
@@ -59,7 +63,10 @@ public class wooperLearner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        wooperCollider = GetComponent<Collider>();
+        hitDetected = false;
         walkingSpeed = 10.0f;
+        visionDistance = 10;
         wooperBody = GetComponent<Rigidbody>();
         wooperBrain = new Dictionary<string, int[,]>();
         wooperBrain.Add("Nothing", makeNewBehaviour());
@@ -72,6 +79,7 @@ public class wooperLearner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        rayScan();
         actionTime += Time.deltaTime;
         Debug.Log(wooperBehaviour);
         if  (!wooperBrain.Keys.Contains(wooperBehaviour)) {
@@ -92,6 +100,36 @@ public class wooperLearner : MonoBehaviour
             currentAction = wooperBrain[wooperBehaviour];
             renderAction(currentAction[actionCounter, 0], currentAction[actionCounter++, 1]);
             actionTime -= 0.5f;
+        }
+    }
+
+    void rayScan() {
+        string detectedObject = "Nothing";
+        for (float rayRotateX = (-5.0f); rayRotateX <= 5.0f; rayRotateX += 0.5f) {
+            for (float rayRotateY = (-10.0f); rayRotateY <= 10.0f; rayRotateY += 0.5f) {
+                Quaternion q = Quaternion.AngleAxis(rayRotateY, Vector3.up);
+                q = q * Quaternion.AngleAxis(rayRotateX, Vector3.left);
+                Vector3 dist = transform.forward * visionDistance;
+                Debug.DrawRay(transform.position, q * dist, Color.green);
+                RaycastHit hit;
+                Physics.Raycast(transform.position, q * dist, out hit, visionDistance);
+                Collider hitObject = hit.collider;
+                if (hitObject != null && hitObject.tag != "Ground")
+                    wooperBehaviour = hitObject.tag;
+            }
+        }
+    }
+
+    void OnDrawGizmos() {
+        Gizmos.color = Color.green;
+        visionDistance = 10;
+        for (float rayRotateX = (-5.0f); rayRotateX <= 5.0f; rayRotateX += 10.0f) {
+            for (float rayRotateY = (-10.0f); rayRotateY <= 10.0f; rayRotateY += 20.0f) {
+                Quaternion q = Quaternion.AngleAxis(rayRotateY, Vector3.up);
+                q = q * Quaternion.AngleAxis(rayRotateX, Vector3.left);
+                Vector3 dist = transform.forward * visionDistance;
+                Gizmos.DrawRay(transform.position, q * dist);
+            }
         }
     }
 }
