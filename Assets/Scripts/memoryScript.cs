@@ -5,5 +5,6 @@ using UnityEngine.SceneManagement;
 
 public static class memoryScript
 {
-    static public IDictionary<string, int[]> parentBrain = new Dictionary<string, int[]>();
+    static public IDictionary<string, int[]> parentBrainA = new Dictionary<string, int[]>();
+
 }

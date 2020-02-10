@@ -12,24 +12,40 @@ public class wooperLearner : MonoBehaviour
     private string wooperBehaviour;
     private int[,] currentAction;
     private float actionTime;
-    private float walkingSpeed;
+    private int walkingSpeed;
     private int actionCounter;
     int visionDistance;
+    float currentRotation;
     bool hitDetected;
-    Collider wooperCollider;
+    bool colliding;
+    bool rotating;
+    bool fainted;
     RaycastHit rayHit;
 
     private void renderAction(int actionType, int direction) {
         switch (actionType) {
             case 0:
-                wooperBody.velocity = transform.forward * walkingSpeed;
+                wooperBody.AddTorque(0, direction, 0);
                 break;
             case 1:
-                wooperBody.velocity += transform.forward * walkingSpeed * (0 - 1);
+                wooperBody.AddTorque(0, direction, 0);
+                wooperBody.velocity = transform.forward * walkingSpeed;
                 break;
             case 2:
+                wooperBody.AddTorque(0, direction, 0);
+                wooperBody.velocity = -transform.forward * walkingSpeed;
+                break;
+            case 3:
+                wooperBody.AddTorque(0, direction, 0);
+                if (colliding)
+                    wooperBody.AddForce(Vector3.up * 500);
+                break;
+            case 4:
+                fainted = true;
                 break;
         }
+        if (direction > 0 || direction < 0)
+            rotating = true;
     }
 
     public void changeBehaviour(string collectedBehaviour) {
@@ -47,25 +63,16 @@ public class wooperLearner : MonoBehaviour
         newBehaviour[3, 1] = 0;
         return newBehaviour;
     }
-    private int[,] makeNewBehaviourB() {
-        int[,] newBehaviour = new int[4, 2];
-        newBehaviour[0, 0] = 1;
-        newBehaviour[0, 1] = 0;
-        newBehaviour[1, 0] = 1;
-        newBehaviour[1, 1] = 0;
-        newBehaviour[2, 0] = 1;
-        newBehaviour[2, 1] = 0;
-        newBehaviour[3, 0] = 1;
-        newBehaviour[3, 1] = 0;
-        return newBehaviour;
-    }
 
     // Start is called before the first frame update
     void Start()
     {
-        wooperCollider = GetComponent<Collider>();
+        currentRotation = 0.0f;
+        rotating = false;
+        colliding = false;
         hitDetected = false;
-        walkingSpeed = 10.0f;
+        fainted = false;
+        walkingSpeed = 10;
         visionDistance = 10;
         wooperBody = GetComponent<Rigidbody>();
         wooperBrain = new Dictionary<string, int[,]>();
@@ -79,21 +86,25 @@ public class wooperLearner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Debug.Log(transform.rotation);
         rayScan();
+        //Debug.Log(wooperBehaviour);
         actionTime += Time.deltaTime;
-        Debug.Log(wooperBehaviour);
         if  (!wooperBrain.Keys.Contains(wooperBehaviour)) {
             int[,] newBehaviour = new int[4, 2];
-            int[,] cleanBehaviour = makeNewBehaviourB();
+            int[,] cleanBehaviour = makeNewBehaviour();
             for (int x = 0; x < 4; x++) {
                 for (int y = 0; y < 2; y++) {
                     newBehaviour[x, y] = cleanBehaviour[x, y];
-                    Debug.Log(newBehaviour[x, y]);
+                    //Debug.Log(newBehaviour[x, y]);
                 }
             }
             wooperBrain.Add(wooperBehaviour, newBehaviour);
         }
         if (actionTime >= 0.5f) {
+            currentRotation = transform.localEulerAngles.y;
+            Debug.Log(currentRotation);
+            rotating = false;
             if (actionCounter > 3) {
                 actionCounter = 0;
             }
@@ -103,6 +114,15 @@ public class wooperLearner : MonoBehaviour
         }
     }
 
+    //Freezes all rotation except y.
+    protected void LateUpdate()
+    {
+        if (rotating)
+            transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
+        else
+            transform.localEulerAngles = new Vector3(0, currentRotation, 0);
+    }
+
     void rayScan() {
         string detectedObject = "Nothing";
         for (float rayRotateX = (-5.0f); rayRotateX <= 5.0f; rayRotateX += 0.5f) {
@@ -110,14 +130,16 @@ public class wooperLearner : MonoBehaviour
                 Quaternion q = Quaternion.AngleAxis(rayRotateY, Vector3.up);
                 q = q * Quaternion.AngleAxis(rayRotateX, Vector3.left);
                 Vector3 dist = transform.forward * visionDistance;
-                Debug.DrawRay(transform.position, q * dist, Color.green);
+                //Debug.DrawRay(transform.position, q * dist, Color.green);
                 RaycastHit hit;
                 Physics.Raycast(transform.position, q * dist, out hit, visionDistance);
+                //Debug.Log(transform.forward + " " + visionDistance);
                 Collider hitObject = hit.collider;
                 if (hitObject != null && hitObject.tag != "Ground")
-                    wooperBehaviour = hitObject.tag;
+                    detectedObject = hitObject.tag;
             }
         }
+        wooperBehaviour = detectedObject;
     }
 
     void OnDrawGizmos() {
@@ -131,5 +153,14 @@ public class wooperLearner : MonoBehaviour
                 Gizmos.DrawRay(transform.position, q * dist);
             }
         }
+    }
+
+    private void OnCollisionEnter(Collision other) {
+        colliding = true;
+        
+    }
+    
+    private void OnCollisionExit(Collision other) {
+        colliding = false;
     }
 }
