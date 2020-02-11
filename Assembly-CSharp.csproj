@@ -46,12 +46,8 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\cameraFollow.cs" />
-     <Compile Include="Assets\Scripts\detectObjects.cs" />
-     <Compile Include="Assets\Scripts\followLizard.cs" />
-     <Compile Include="Assets\Scripts\ignoreAll.cs" />
-     <Compile Include="Assets\Scripts\ignoreLizard.cs" />
+     <Compile Include="Assets\Scripts\displayData.cs" />
      <Compile Include="Assets\Scripts\memoryScript.cs" />
-     <Compile Include="Assets\Scripts\sightFollow.cs" />
      <Compile Include="Assets\Scripts\wooperLearner.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Users/20145879/Desktop/My Repos/learning-lizards/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
