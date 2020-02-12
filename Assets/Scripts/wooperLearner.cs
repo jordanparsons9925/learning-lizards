@@ -15,22 +15,27 @@ public class wooperLearner : MonoBehaviour
     private int actionCounter;
     int visionDistance;
     float currentRotation;
-    bool hitDetected;
     bool colliding;
     bool rotating;
-    bool fainted;
+    public bool fainted;
     RaycastHit rayHit;
     float wooperScore;
     float lastScore;
     float wooperLife;
+    int familyMatch;
+    bool parentTaken;
 
     private void wooperDeath() {
         fainted = true;
         wooperBody.velocity = new Vector3(0, 0, 0);
+        do {
+        } while (memoryScript.familyBrains[memoryScript.family].beingModified);
         if (wooperScore > memoryScript.familyBrains[memoryScript.family].scoreA) {
+            memoryScript.familyBrains[memoryScript.family].beingModified = true;
+            memoryScript.familyBrains[memoryScript.family].scoreA = wooperScore;
             memoryScript.familyBrains[memoryScript.family].childA.Clear();
             foreach (string geneBehaviour in wooperBrain.Keys) {
-                memoryScript.familyBrains[memoryScript.family].childA.Add(geneBehaviour, new int[4,2]);
+                memoryScript.familyBrains[memoryScript.family].childA.Add(geneBehaviour, new int[8,2]);
                 for (int x = 0; x < 4; x++) {
                     for (int y = 0; y < 2; y++) {
                         memoryScript.familyBrains[memoryScript.family].childA[geneBehaviour][x, y]
@@ -38,11 +43,13 @@ public class wooperLearner : MonoBehaviour
                     }
                 }
             }
-            memoryScript.familyBrains[memoryScript.family].scoreA = wooperScore;
+            
         } else if (wooperScore > memoryScript.familyBrains[memoryScript.family].scoreB) {
+            memoryScript.familyBrains[memoryScript.family].beingModified = true;
+            memoryScript.familyBrains[memoryScript.family].scoreB = wooperScore;
             memoryScript.familyBrains[memoryScript.family].childB.Clear();
             foreach (string geneBehaviour in wooperBrain.Keys) {
-                memoryScript.familyBrains[memoryScript.family].childB.Add(geneBehaviour, new int[4,2]);
+                memoryScript.familyBrains[memoryScript.family].childB.Add(geneBehaviour, new int[8,2]);
                 for (int x = 0; x < 4; x++) {
                     for (int y = 0; y < 2; y++) {
                         memoryScript.familyBrains[memoryScript.family].childB[geneBehaviour][x, y]
@@ -50,10 +57,8 @@ public class wooperLearner : MonoBehaviour
                     }
                 }
             }
-            memoryScript.familyBrains[memoryScript.family].scoreB = wooperScore;
         }
         memoryScript.numDead++;
-        Debug.Log("Dead");
         memoryScript.checkDeaths();
     }
     // Renders a specified action to the wooper
@@ -78,9 +83,6 @@ public class wooperLearner : MonoBehaviour
                     if (colliding)
                         wooperBody.AddForce(Vector3.up * 250);
                     break;
-                case 4:
-                    wooperDeath();
-                    break;
             }
             if (direction > 0 || direction < 0)
                 rotating = true;
@@ -94,15 +96,23 @@ public class wooperLearner : MonoBehaviour
     
     // Makes a new, empty behaviour
     private int[,] makeNewBehaviour() {
-        int[,] newBehaviour = new int[4, 2];
+        int[,] newBehaviour = new int[8, 2];
         newBehaviour[0, 0] = 1;
         newBehaviour[0, 1] = 0;
-        newBehaviour[1, 0] = 0;
+        newBehaviour[1, 0] = 1;
         newBehaviour[1, 1] = 0;
-        newBehaviour[2, 0] = 0;
+        newBehaviour[2, 0] = 1;
         newBehaviour[2, 1] = 0;
-        newBehaviour[3, 0] = 0;
+        newBehaviour[3, 0] = 1;
         newBehaviour[3, 1] = 0;
+        newBehaviour[4, 0] = 1;
+        newBehaviour[4, 1] = 0;
+        newBehaviour[5, 0] = 1;
+        newBehaviour[5, 1] = 0;
+        newBehaviour[6, 0] = 1;
+        newBehaviour[6, 1] = 0;
+        newBehaviour[7, 0] = 1;
+        newBehaviour[7, 1] = 0;
         return newBehaviour;
     }
     
@@ -111,17 +121,22 @@ public class wooperLearner : MonoBehaviour
         IDictionary<string, int[,]> parentA = memoryScript.familyBrains[memoryScript.family].parentA;
         if (memoryScript.familyMatch == -1) {
             do {
-                memoryScript.familyMatch = Random.Range(0, 10);
-            } while(memoryScript.familyBrains[memoryScript.familyMatch].parentTaken 
-            || memoryScript.familyMatch == memoryScript.family);
-            memoryScript.familyBrains[memoryScript.familyMatch].parentTaken = true;
+                familyMatch = Random.Range(0, 10);
+                parentTaken = memoryScript.familyBrains[familyMatch].parentTaken;
+            } while(memoryScript.familyBrains[familyMatch].parentTaken 
+            || familyMatch == memoryScript.family ||
+            memoryScript.familyBrains[familyMatch].pairedWith == memoryScript.family);
+            
+            memoryScript.familyBrains[familyMatch].parentTaken = true;
+            memoryScript.familyMatch = familyMatch;
+            memoryScript.familyBrains[familyMatch].pairedWith = memoryScript.family;
         }
         IDictionary<string, int[,]> parentB = memoryScript.familyBrains[memoryScript.familyMatch].parentB;
 
         foreach (string geneBehaviour in parentA.Keys) {
-            wooperBrain.Add(geneBehaviour, new int[4, 2]);
+            wooperBrain.Add(geneBehaviour, new int[8, 2]);
             if (parentB.ContainsKey(geneBehaviour)) {
-                if (Random.Range(0, 2) == 1) {
+                if (Random.Range(0, 4) > 0) {
                     for (int x = 0; x < 4; x++) {
                         for (int y = 0; y < 2; y++) {
                             wooperBrain[geneBehaviour][x, y] = parentA[geneBehaviour][x, y];
@@ -145,7 +160,7 @@ public class wooperLearner : MonoBehaviour
 
         foreach (string geneBehaviour in parentB.Keys) {
             if (!wooperBrain.ContainsKey(geneBehaviour)) {
-                wooperBrain.Add(geneBehaviour, new int[4, 2]);
+                wooperBrain.Add(geneBehaviour, new int[8, 2]);
                 for (int x = 0; x < 4; x++) {
                     for (int y = 0; y < 2; y++) {
                         wooperBrain[geneBehaviour][x, y] = parentB[geneBehaviour][x, y];
@@ -159,12 +174,14 @@ public class wooperLearner : MonoBehaviour
     // Mutates the behaviours of a wooper
     private void mutateGenes() {
         foreach (string geneBehaviour in wooperBrain.Keys) {
-            int selectedAction = Random.Range(0, 4);
-            int actionType = Random.Range(0, 5);
-            int directionMutation = Random.Range(-5, 6);
+            for (int i = 0; i < 1; i++) {
+                int selectedAction = Random.Range(0, 8);
+                int actionType = Random.Range(0, 4);
+                int directionMutation = Random.Range(-5, 6);
 
-            wooperBrain[geneBehaviour][selectedAction, 0] = actionType;
-            wooperBrain[geneBehaviour][selectedAction, 1] += directionMutation;
+                wooperBrain[geneBehaviour][selectedAction, 0] = actionType;
+                wooperBrain[geneBehaviour][selectedAction, 1] += directionMutation;
+            }
         }
     }
     
@@ -174,17 +191,16 @@ public class wooperLearner : MonoBehaviour
         currentRotation = 0.0f;
         rotating = false;
         colliding = false;
-        hitDetected = false;
         fainted = false;
-        walkingSpeed = 7;
-        visionDistance = 10;
+        walkingSpeed = 5;
+        visionDistance = 7;
         wooperBody = GetComponent<Rigidbody>();
         wooperBrain = new Dictionary<string, int[,]>();
         inheritGenes();
         actionTime = 0.0f;
         actionCounter = 0;
-        wooperScore = 0.0f;
-        lastScore = 0.0f;
+        wooperScore = -1000f;
+        lastScore = -1000f;
     }
 
     // Update is called once per frame
@@ -193,14 +209,14 @@ public class wooperLearner : MonoBehaviour
         if (!fainted){
         rayScan();
         actionTime += Time.deltaTime;
-        if (wooperScore == lastScore) {
+        if (wooperScore <= lastScore + 0.5f) {
             wooperLife += Time.deltaTime;
         } else {
-            lastScore = wooperScore;
             wooperLife = 0.0f;
+            lastScore = wooperScore;
         }
         if  (!wooperBrain.ContainsKey(wooperBehaviour)) {
-            wooperBrain.Add(wooperBehaviour, new int[4,2]);
+            wooperBrain.Add(wooperBehaviour, new int[8,2]);
             int[,] cleanBehaviour = makeNewBehaviour();
             for (int x = 0; x < 4; x++) {
                 for (int y = 0; y < 2; y++) {
@@ -220,15 +236,16 @@ public class wooperLearner : MonoBehaviour
             actionTime -= 0.5f;
         }
 
-        if (wooperLife >= 10.0f) {
+        if (transform.position.y <= -36.3f || wooperLife >= 5.0f) {
             wooperDeath();
         }
         float wooperZ = transform.position.z;
         if (wooperZ > wooperScore)
             wooperScore = wooperZ;
         }
+        
     }
-    
+
     // Freezes all rotation except y
     protected void LateUpdate()
     {
@@ -241,7 +258,7 @@ public class wooperLearner : MonoBehaviour
     // Scans the environment for an object to react to
     void rayScan() {
         string detectedObject = "Nothing";
-        for (float rayRotateX = (-5.0f); rayRotateX <= 5.0f; rayRotateX += 0.5f) {
+        for (float rayRotateX = (-2.5f); rayRotateX <= 5.0f; rayRotateX += 0.5f) {
             for (float rayRotateY = (-10.0f); rayRotateY <= 10.0f; rayRotateY += 0.5f) {
                 Quaternion q = Quaternion.AngleAxis(rayRotateY, Vector3.up);
                 q = q * Quaternion.AngleAxis(rayRotateX, Vector3.left);
@@ -259,8 +276,8 @@ public class wooperLearner : MonoBehaviour
     // Draws the wooper's field of view in the editor for debugging
     void OnDrawGizmos() {
         Gizmos.color = Color.green;
-        visionDistance = 10;
-        for (float rayRotateX = (-5.0f); rayRotateX <= 5.0f; rayRotateX += 10.0f) {
+        visionDistance = 7;
+        for (float rayRotateX = (-2.5f); rayRotateX <= 5.0f; rayRotateX += 5.0f) {
             for (float rayRotateY = (-10.0f); rayRotateY <= 10.0f; rayRotateY += 20.0f) {
                 Quaternion q = Quaternion.AngleAxis(rayRotateY, Vector3.up);
                 q = q * Quaternion.AngleAxis(rayRotateX, Vector3.left);
@@ -273,9 +290,6 @@ public class wooperLearner : MonoBehaviour
     // Limits jumping if not on ground
     private void OnCollisionEnter(Collision other) {
         colliding = true;
-        if (other.collider.tag == "Death") {
-            wooperDeath();
-        }
         
     }
     private void OnCollisionExit(Collision other) {

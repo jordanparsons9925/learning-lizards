@@ -47,6 +47,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\cameraFollow.cs" />
      <Compile Include="Assets\Scripts\displayData.cs" />
+     <Compile Include="Assets\Scripts\farTrack.cs" />
      <Compile Include="Assets\Scripts\memoryScript.cs" />
      <Compile Include="Assets\Scripts\wooperLearner.cs" />
  <Reference Include="Unity.Timeline.Editor">
