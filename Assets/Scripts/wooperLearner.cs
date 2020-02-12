@@ -43,7 +43,7 @@ public class wooperLearner : MonoBehaviour
                     }
                 }
             }
-            
+            memoryScript.familyBrains[memoryScript.family].beingModified = false;
         } else if (wooperScore > memoryScript.familyBrains[memoryScript.family].scoreB) {
             memoryScript.familyBrains[memoryScript.family].beingModified = true;
             memoryScript.familyBrains[memoryScript.family].scoreB = wooperScore;
@@ -57,6 +57,7 @@ public class wooperLearner : MonoBehaviour
                     }
                 }
             }
+            memoryScript.familyBrains[memoryScript.family].beingModified = false;
         }
         memoryScript.numDead++;
         memoryScript.checkDeaths();
