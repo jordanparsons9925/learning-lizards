@@ -77,6 +77,7 @@ public static class memoryScript
     }
 
     static void nextFamily() {
+        Debug.ClearDeveloperConsole();
         numDead = 0;
         if (family <= 8) {
             family++;

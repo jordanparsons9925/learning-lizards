@@ -53,6 +53,7 @@ public class wooperLearner : MonoBehaviour
             memoryScript.familyBrains[memoryScript.family].scoreB = wooperScore;
         }
         memoryScript.numDead++;
+        Debug.Log("Dead");
         memoryScript.checkDeaths();
     }
     // Renders a specified action to the wooper
