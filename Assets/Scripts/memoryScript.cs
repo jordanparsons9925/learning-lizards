@@ -98,7 +98,6 @@ public static class memoryScript
     static public int numDead;
 
     static memoryScript() {
-        Time.timeScale = 10.0f;
         generation = 1;
         family = 0;
         familyMatch = -1;
@@ -123,12 +122,6 @@ public static class memoryScript
             familyMatch = -1;
         } else {
             nextGeneration();
-        }
-        if (generation % 10 == 10) {
-            Time.timeScale = 1.0f;
-        }
-        if (generation % 10 != 10) {
-            Time.timeScale = 10.0f;
         }
         SceneManager.LoadScene("inSimulation");
     }

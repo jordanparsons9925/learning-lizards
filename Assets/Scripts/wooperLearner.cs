@@ -175,10 +175,9 @@ public class wooperLearner : MonoBehaviour
         foreach (string geneBehaviour in wooperBrain.Keys) {
             for (int i = 0; i < 1; i++) {
                 int selectedAction = Random.Range(0, 8);
-                int actionType = Random.Range(0, 4);
+                if (Random.Range(0, 4) == 0)
+                    wooperBrain[geneBehaviour][selectedAction, 0] = Random.Range(0, 4);
                 int directionMutation = Random.Range(-5, 6);
-
-                wooperBrain[geneBehaviour][selectedAction, 0] = actionType;
                 wooperBrain[geneBehaviour][selectedAction, 1] += directionMutation;
             }
         }
