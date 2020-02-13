@@ -123,12 +123,10 @@ public class wooperLearner : MonoBehaviour
         if (memoryScript.familyMatch == -1) {
             do {
                 familyMatch = Random.Range(0, 10);
-                parentTaken = memoryScript.familyBrains[familyMatch].parentTaken;
-            } while(memoryScript.familyBrains[familyMatch].parentTaken 
-            || familyMatch == memoryScript.family ||
-            memoryScript.familyBrains[familyMatch].pairedWith == memoryScript.family);
+                int pairedWith = memoryScript.familyBrains[familyMatch].pairedWith;
+                int family = memoryScript.family;
+            } while(memoryScript.familyBrains[familyMatch].pairedWith == memoryScript.family || familyMatch == memoryScript.family);
             
-            memoryScript.familyBrains[familyMatch].parentTaken = true;
             memoryScript.familyMatch = familyMatch;
             memoryScript.familyBrains[familyMatch].pairedWith = memoryScript.family;
         }

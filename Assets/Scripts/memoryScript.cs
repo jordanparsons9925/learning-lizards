@@ -13,7 +13,6 @@ public static class memoryScript
         public float scoreA;
         public float scoreB;
 
-        public bool parentTaken;
         public int pairedWith;
 
         public bool beingModified;
@@ -59,7 +58,6 @@ public static class memoryScript
             childB = new Dictionary<string, int[,]>();
             scoreA = 0.0f;
             scoreB = 0.0f;
-            parentTaken = false;
             pairedWith = -1;
             beingModified = false;
         }
@@ -88,7 +86,6 @@ public static class memoryScript
             }
             scoreA = 0.0f;
             scoreB = 0.0f;
-            parentTaken = false;
             pairedWith = -1;
         }
     }
