@@ -135,7 +135,7 @@ public class wooperLearner : MonoBehaviour
         foreach (string geneBehaviour in parentA.Keys) {
             wooperBrain.Add(geneBehaviour, new int[8, 2]);
             if (parentB.ContainsKey(geneBehaviour)) {
-                if (Random.Range(0, 4) > 0) {
+                if (Random.Range(0, 8) > 0) {
                     for (int x = 0; x < 4; x++) {
                         for (int y = 0; y < 2; y++) {
                             wooperBrain[geneBehaviour][x, y] = parentA[geneBehaviour][x, y];
@@ -175,7 +175,7 @@ public class wooperLearner : MonoBehaviour
         foreach (string geneBehaviour in wooperBrain.Keys) {
             for (int i = 0; i < 1; i++) {
                 int selectedAction = Random.Range(0, 8);
-                if (Random.Range(0, 4) == 0)
+                if (Random.Range(0, 8) == 0)
                     wooperBrain[geneBehaviour][selectedAction, 0] = Random.Range(0, 4);
                 int directionMutation = Random.Range(-5, 6);
                 wooperBrain[geneBehaviour][selectedAction, 1] += directionMutation;
@@ -190,7 +190,7 @@ public class wooperLearner : MonoBehaviour
         rotating = false;
         colliding = false;
         fainted = false;
-        walkingSpeed = 5;
+        walkingSpeed = 6;
         visionDistance = 7;
         wooperBody = GetComponent<Rigidbody>();
         wooperBrain = new Dictionary<string, int[,]>();

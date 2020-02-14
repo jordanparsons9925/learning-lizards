@@ -21,6 +21,11 @@ TagManager:
   - pin8
   - leftLedge
   - rightLedge
+  - speedButton
+  - slowButton
+  - speedDisplay
+  - sweeper1
+  - sweeper2
   layers:
   - Default
   - TransparentFX

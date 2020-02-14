@@ -24,6 +24,7 @@ public class clickPause : MonoBehaviour
 
     public void togglePause() {
         paused = !paused;
+        memoryScript.paused = paused;
         if (paused) {
             Time.timeScale = 0.0f;
             buttonSelf.sprite = playSprite;

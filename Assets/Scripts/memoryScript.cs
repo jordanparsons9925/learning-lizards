@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public static class memoryScript
 {
@@ -98,7 +99,13 @@ public static class memoryScript
     static public int numDead;
     static public float currentSpeed;
 
+    static public bool paused;
+
+    static public Color speedColor;
+    static public Color slowColor;
+
     static memoryScript() {
+        paused = false;
         currentSpeed = 1.0f;
         generation = 1;
         family = 0;
@@ -107,6 +114,16 @@ public static class memoryScript
         for (int i = 0; i < familyBrains.Length; i++) {
             familyBrains[i] = new Brain();
         }
+
+        speedColor.r = 0;
+        speedColor.g = 255;
+        speedColor.b = 203;
+        speedColor.a = 255;
+
+        slowColor.r = 0;
+        slowColor.g = 255;
+        slowColor.b = 203;
+        slowColor.a = 255;
         //UnityEditor.SceneView.FocusWindowIfItsOpen(typeof(UnityEditor.SceneView));
     }
     
