@@ -96,8 +96,10 @@ public static class memoryScript
     static public int family;
     static public int familyMatch;
     static public int numDead;
+    static public float currentSpeed;
 
     static memoryScript() {
+        currentSpeed = 1.0f;
         generation = 1;
         family = 0;
         familyMatch = -1;

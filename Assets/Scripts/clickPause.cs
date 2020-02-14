@@ -30,7 +30,7 @@ public class clickPause : MonoBehaviour
         }
             
         else {
-            Time.timeScale = 1.0f;
+            Time.timeScale = memoryScript.currentSpeed;
             buttonSelf.sprite = pauseSprite;
         }
     }
