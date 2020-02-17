@@ -53,7 +53,6 @@
      <Compile Include="Assets\Scripts\farTrack.cs" />
      <Compile Include="Assets\Scripts\memoryScript.cs" />
      <Compile Include="Assets\Scripts\setSpeedDisplay.cs" />
-     <Compile Include="Assets\Scripts\sweepSweep.cs" />
      <Compile Include="Assets\Scripts\wooperLearner.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Users/20145879/Desktop/My Repos/learning-lizards/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

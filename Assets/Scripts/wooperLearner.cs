@@ -234,7 +234,7 @@ public class wooperLearner : MonoBehaviour
             actionTime -= 0.5f;
         }
 
-        if (transform.position.y <= -36.3f || wooperLife >= 5.0f) {
+        if (transform.position.y <= -3.0f || transform.position.x > 12.45f || transform.position.x < -12.45f|| wooperLife >= 5.0f) {
             wooperDeath();
         }
         float wooperZ = transform.position.z;

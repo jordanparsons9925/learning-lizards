@@ -24,8 +24,10 @@ TagManager:
   - speedButton
   - slowButton
   - speedDisplay
-  - sweeper1
-  - sweeper2
+  - pit1
+  - bump4
+  - bump5
+  - pit2
   layers:
   - Default
   - TransparentFX
