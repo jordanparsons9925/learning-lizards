@@ -26,6 +26,8 @@ public class wooperLearner : MonoBehaviour
     float wooperLife;
     int familyMatch;
     bool parentTaken;
+    int queuedAction;
+    int queuedDirection;
 
     private void wooperDeath() {
         fainted = true;
@@ -67,6 +69,48 @@ public class wooperLearner : MonoBehaviour
     // Renders a specified action to the wooper
     private void renderAction(int actionType, int direction) {
         if (!fainted) {
+            switch (queuedDirection) {
+                case 1:
+                    if (colliding)
+                        wooperBody.AddTorque(0, 45, 0);
+                    break;
+                case 2:
+                    if (colliding)
+                        wooperBody.AddTorque(0, -45, 0);
+                    break;
+                case 3:
+                    if (colliding)
+                        wooperBody.AddTorque(0, 90, 0);
+                    break;
+                case 4:
+                    if (colliding)
+                        wooperBody.AddTorque(0, -90, 0);
+                    break;
+                default:
+                    break;
+            }
+            if (colliding) {
+                queuedDirection = 0;
+            }
+            switch (queuedAction) {
+                case 1:
+                    if (colliding)
+                        wooperBody.velocity = transform.forward * walkingSpeed;
+                    break;
+                case 2:
+                    if (colliding)
+                        wooperBody.velocity = -transform.forward * walkingSpeed;
+                    break;
+                case 3:
+                    if (colliding)
+                        wooperBody.AddForce(Vector3.up * 250);
+                    break;
+                default:
+                    break;
+            }
+            if (colliding) {
+                queuedAction = 0;
+            }
             switch (direction) {
                 case 1:
                     if (colliding)
@@ -106,6 +150,10 @@ public class wooperLearner : MonoBehaviour
             }
             if (direction > 0 || direction < 0)
                 rotating = true;
+            if (!colliding) {
+                queuedDirection = direction;
+                queuedAction = actionType;
+            }
         }
     }
     
@@ -205,6 +253,8 @@ public class wooperLearner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        queuedAction = 0;
+        queuedDirection = 0;
         currentRotation = 0.0f;
         rotating = false;
         colliding = false;
