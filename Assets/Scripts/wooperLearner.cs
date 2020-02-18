@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEditor.Animations;
 
 public class wooperLearner : MonoBehaviour
 {
     private IDictionary<string, int[,]> wooperBrain;
     private Rigidbody wooperBody;
+    //public AnimatorStateMachine wooperModel;
     private string wooperBehaviour;
     private int[,] currentAction;
     private float actionTime;
@@ -65,24 +67,41 @@ public class wooperLearner : MonoBehaviour
     // Renders a specified action to the wooper
     private void renderAction(int actionType, int direction) {
         if (!fainted) {
-            switch (actionType) {
-                case 0:
-                    wooperBody.AddTorque(0, direction, 0);
-                    break;
+            switch (direction) {
                 case 1:
-                    wooperBody.AddTorque(0, direction, 0);
+                    if (colliding)
+                        wooperBody.AddTorque(0, 45, 0);
+                    break;
+                case 2:
+                    if (colliding)
+                        wooperBody.AddTorque(0, -45, 0);
+                    break;
+                case 3:
+                    if (colliding)
+                        wooperBody.AddTorque(0, 90, 0);
+                    break;
+                case 4:
+                    if (colliding)
+                        wooperBody.AddTorque(0, -90, 0);
+                    break;
+                default:
+                    break;
+            }
+            switch (actionType) {
+                case 1:
                     if (colliding)
                         wooperBody.velocity = transform.forward * walkingSpeed;
                     break;
                 case 2:
-                    wooperBody.AddTorque(0, direction, 0);
                     if (colliding)
                         wooperBody.velocity = -transform.forward * walkingSpeed;
                     break;
                 case 3:
-                    wooperBody.AddTorque(0, direction, 0);
                     if (colliding)
                         wooperBody.AddForce(Vector3.up * 250);
+                        //wooperModel.
+                    break;
+                default:
                     break;
             }
             if (direction > 0 || direction < 0)
@@ -177,8 +196,8 @@ public class wooperLearner : MonoBehaviour
                 int selectedAction = Random.Range(0, 8);
                 if (Random.Range(0, 8) == 0)
                     wooperBrain[geneBehaviour][selectedAction, 0] = Random.Range(0, 4);
-                int directionMutation = Random.Range(-5, 6);
-                wooperBrain[geneBehaviour][selectedAction, 1] += directionMutation;
+                if (Random.Range(0, 8) == 0)
+                wooperBrain[geneBehaviour][selectedAction, 1] = Random.Range(0, 5);
             }
         }
     }
