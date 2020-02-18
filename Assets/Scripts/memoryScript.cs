@@ -104,7 +104,15 @@ public static class memoryScript
     static public Color speedColor;
     static public Color slowColor;
 
+    static public bool freeCam = false;
+
+    static public Vector3 freeCamPosition;
+
+    static public Quaternion freeCamRotation;
+
     static memoryScript() {
+        freeCamPosition = new Vector3(-83.4f, 28.7f, 39.1f);
+        freeCamRotation = Quaternion.Euler(0f, 0f, 0f);
         paused = false;
         currentSpeed = 1.0f;
         generation = 1;

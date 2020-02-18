@@ -259,7 +259,7 @@ public class wooperLearner : MonoBehaviour
         rotating = false;
         colliding = false;
         fainted = false;
-        walkingSpeed = 6;
+        walkingSpeed = 7;
         visionDistance = 7;
         wooperBody = GetComponent<Rigidbody>();
         wooperBrain = new Dictionary<string, int[,]>();
