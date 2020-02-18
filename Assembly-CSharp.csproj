@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\memoryScript.cs" />
      <Compile Include="Assets\Scripts\modelFollow.cs" />
      <Compile Include="Assets\Scripts\setSpeedDisplay.cs" />
+     <Compile Include="Assets\Scripts\spawnOnButton.cs" />
      <Compile Include="Assets\Scripts\wooperLearner.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Users/explo/Desktop/learning-lizards/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
