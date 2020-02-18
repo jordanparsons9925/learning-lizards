@@ -124,7 +124,7 @@ public static class memoryScript
         slowColor.g = 255;
         slowColor.b = 203;
         slowColor.a = 255;
-        //UnityEditor.SceneView.FocusWindowIfItsOpen(typeof(UnityEditor.SceneView));
+        UnityEditor.SceneView.FocusWindowIfItsOpen(typeof(UnityEditor.SceneView));
     }
     
     public static void checkDeaths() {

@@ -272,7 +272,7 @@ public class wooperLearner : MonoBehaviour
     }
     
     // Draws the wooper's field of view in the editor for debugging
-    void OnDrawGizmos() {
+    /*void OnDrawGizmos() {
         Gizmos.color = Color.green;
         visionDistance = 7;
         for (float rayRotateX = (-2.5f); rayRotateX <= 5.0f; rayRotateX += 5.0f) {
@@ -283,7 +283,7 @@ public class wooperLearner : MonoBehaviour
                 Gizmos.DrawRay(transform.position, q * dist);
             }
         }
-    }
+    }*/
     
     // Limits jumping if not on ground
     private void OnCollisionEnter(Collision other) {
