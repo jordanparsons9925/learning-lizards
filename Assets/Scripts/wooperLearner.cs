@@ -70,20 +70,23 @@ public class wooperLearner : MonoBehaviour
             switch (direction) {
                 case 1:
                     if (colliding)
-                        wooperBody.AddTorque(0, transform.rotation.y + 45, 0);
-                        currentDirection = 45;
+                        currentRotation = 0;
                     break;
                 case 2:
                     if (colliding)
-                        wooperBody.AddTorque(0, transform.rotation.y - 45, 0);
+                        currentRotation = 45;
                     break;
                 case 3:
                     if (colliding)
-                        wooperBody.AddTorque(0, transform.rotation.y + 90, 0);
+                        currentRotation = -45;
                     break;
                 case 4:
                     if (colliding)
-                        wooperBody.AddTorque(0, transform.rotation.y - 90, 0);
+                        currentRotation = 90;
+                    break;
+                case 5:
+                    if (colliding)
+                        currentRotation = -90;
                     break;
                 default:
                     break;
@@ -100,7 +103,6 @@ public class wooperLearner : MonoBehaviour
                 case 3:
                     if (colliding)
                         wooperBody.AddForce(Vector3.up * 250);
-                        //wooperModel.
                     break;
                 default:
                     break;
@@ -198,7 +200,7 @@ public class wooperLearner : MonoBehaviour
                 if (Random.Range(0, 8) == 0)
                     wooperBrain[geneBehaviour][selectedAction, 0] = Random.Range(0, 4);
                 if (Random.Range(0, 8) == 0)
-                wooperBrain[geneBehaviour][selectedAction, 1] = Random.Range(0, 5);
+                wooperBrain[geneBehaviour][selectedAction, 1] = Random.Range(0, 6);
             }
         }
     }
@@ -213,6 +215,7 @@ public class wooperLearner : MonoBehaviour
         walkingSpeed = 7;
         visionDistance = 7;
         wooperBody = GetComponent<Rigidbody>();
+        wooperBody.freezeRotation = true;
         wooperBrain = new Dictionary<string, int[,]>();
         inheritGenes();
         actionTime = 0.0f;
@@ -244,7 +247,10 @@ public class wooperLearner : MonoBehaviour
 
         }
         if (actionTime >= 0.5f) {
-            currentRotation = transform.localEulerAngles.y;
+            //if (wooperBody.rotation.eulerAngles.y > currentRotation)
+            wooperBody.MoveRotation(Quaternion.Euler(0, - 1.0f, 0));
+            if (wooperBody.rotation.eulerAngles.y < currentRotation)
+                wooperBody.MoveRotation(Quaternion.Euler(0, wooperBody.rotation.eulerAngles.y + 1.0f, 0));
             rotating = false;
             if (actionCounter > 3) {
                 actionCounter = 0;
@@ -262,15 +268,6 @@ public class wooperLearner : MonoBehaviour
             wooperScore = wooperZ;
         }
         
-    }
-
-    // Freezes all rotation except y
-    protected void LateUpdate()
-    {
-        if (rotating)
-            transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
-        else
-            transform.localEulerAngles = new Vector3(0, currentRotation, 0);
     }
     
     // Scans the environment for an object to react to
