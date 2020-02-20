@@ -208,11 +208,11 @@ public class wooperLearner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        currentRotation = 0.0f;
+        currentRotation = 0;
         rotating = false;
         colliding = false;
         fainted = false;
-        walkingSpeed = 7;
+        walkingSpeed = 8;
         visionDistance = 7;
         wooperBody = GetComponent<Rigidbody>();
         wooperBody.freezeRotation = true;
@@ -230,6 +230,12 @@ public class wooperLearner : MonoBehaviour
         if (!fainted){
         rayScan();
         actionTime += Time.deltaTime;
+        if (Mathf.DeltaAngle(wooperBody.rotation.eulerAngles.y, currentRotation) > 0) {
+            wooperBody.MoveRotation(Quaternion.Euler(0, wooperBody.rotation.eulerAngles.y + (120.0f * Time.deltaTime), 0));
+        }
+        if (Mathf.DeltaAngle(wooperBody.rotation.eulerAngles.y, currentRotation) < 0) {
+            wooperBody.MoveRotation(Quaternion.Euler(0, wooperBody.rotation.eulerAngles.y - (120.0f * Time.deltaTime), 0));
+        }
         if (wooperScore <= lastScore + 0.5f) {
             wooperLife += Time.deltaTime;
         } else {
@@ -247,10 +253,6 @@ public class wooperLearner : MonoBehaviour
 
         }
         if (actionTime >= 0.5f) {
-            //if (wooperBody.rotation.eulerAngles.y > currentRotation)
-            wooperBody.MoveRotation(Quaternion.Euler(0, - 1.0f, 0));
-            if (wooperBody.rotation.eulerAngles.y < currentRotation)
-                wooperBody.MoveRotation(Quaternion.Euler(0, wooperBody.rotation.eulerAngles.y + 1.0f, 0));
             rotating = false;
             if (actionCounter > 3) {
                 actionCounter = 0;
@@ -260,7 +262,7 @@ public class wooperLearner : MonoBehaviour
             actionTime -= 0.5f;
         }
 
-        if (transform.position.y <= -3.0f || transform.position.x > 12.45f || transform.position.x < -12.45f|| wooperLife >= 5.0f) {
+        if (transform.position.y <= -3.0f || transform.position.x > 14.0f || transform.position.x < -14.0f|| wooperLife >= 5.0f) {
             wooperDeath();
         }
         float wooperZ = transform.position.z;

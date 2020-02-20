@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.43667555, g: 0.48427188, b: 0.56452423, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366756, g: 0.48427194, b: 0.5645252, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1419,8 +1419,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.57, y: 1, z: 0.7}
+  m_Center: {x: 0, y: 0, z: 0.09}
 --- !u!23 &548607347
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2555,8 +2555,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.57, y: 1, z: 0.7}
+  m_Center: {x: 0, y: 0, z: 0.09}
 --- !u!23 &933297989
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3263,8 +3263,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.57, y: 1, z: 0.7}
+  m_Center: {x: 0, y: 0, z: 0.09}
 --- !u!23 &1175117631
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3755,8 +3755,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.57, y: 1, z: 0.7}
+  m_Center: {x: 0, y: 0, z: 0.09}
 --- !u!23 &1359776243
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3956,8 +3956,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.57, y: 1, z: 0.7}
+  m_Center: {x: 0, y: 0, z: 0.09}
 --- !u!23 &1373316494
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5013,8 +5013,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.57, y: 1, z: 0.7}
+  m_Center: {x: 0, y: 0, z: 0.09}
 --- !u!23 &1861827772
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5677,8 +5677,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.57, y: 1, z: 0.7}
+  m_Center: {x: 0, y: 0, z: 0.09}
 --- !u!23 &1983244324
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5852,8 +5852,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.57, y: 1, z: 0.7}
+  m_Center: {x: 0, y: 0, z: 0.09}
 --- !u!23 &2058657243
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6095,8 +6095,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.57, y: 1, z: 0.7}
+  m_Center: {x: 0, y: 0, z: 0.09}
 --- !u!23 &2094841921
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6286,6 +6286,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Wooper
+      objectReference: {fileID: 0}
+    - target: {fileID: 7501272659399090540, guid: 3c4757d95a350764d842353e6ac899c5,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 7501272659399090540, guid: 3c4757d95a350764d842353e6ac899c5,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7501272659399090540, guid: 3c4757d95a350764d842353e6ac899c5,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 7501272659399090543, guid: 3c4757d95a350764d842353e6ac899c5,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7501272661312713445, guid: 3c4757d95a350764d842353e6ac899c5,
         type: 3}

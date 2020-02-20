@@ -24,7 +24,7 @@ public class cameraFollow : MonoBehaviour
 
             if (cameraShot == 0) {
                 transform.position = new Vector3(-83.4f, 28.7f, 39.1f);
-                Debug.Log(transform.rotation.y);
+                //Debug.Log(transform.rotation.y);
                 if (transform.rotation.y < 0.45f)
                     cameraShot++;
             } else if (cameraShot == 1) {
