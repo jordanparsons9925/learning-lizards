@@ -93,12 +93,10 @@ public class wooperLearner : MonoBehaviour
             }
             switch (actionType) {
                 case 1:
-                    if (colliding)
-                        wooperBody.velocity = transform.forward * walkingSpeed;
+                    wooperBody.velocity = transform.forward * walkingSpeed;
                     break;
                 case 2:
-                    if (colliding)
-                        wooperBody.velocity = -transform.forward * walkingSpeed;
+                    wooperBody.velocity = -transform.forward * walkingSpeed;
                     break;
                 case 3:
                     if (colliding)
@@ -213,7 +211,7 @@ public class wooperLearner : MonoBehaviour
         colliding = false;
         fainted = false;
         walkingSpeed = 8;
-        visionDistance = 7;
+        visionDistance = 4;
         wooperBody = GetComponent<Rigidbody>();
         wooperBody.freezeRotation = true;
         wooperBrain = new Dictionary<string, int[,]>();
@@ -275,7 +273,7 @@ public class wooperLearner : MonoBehaviour
     // Scans the environment for an object to react to
     void rayScan() {
         string detectedObject = "Nothing";
-        for (float rayRotateX = (-2.5f); rayRotateX <= 5.0f; rayRotateX += 0.5f) {
+        for (float rayRotateX = (-2.5f); rayRotateX <= 7.5f; rayRotateX += 0.5f) {
             for (float rayRotateY = (-10.0f); rayRotateY <= 10.0f; rayRotateY += 0.5f) {
                 Quaternion q = Quaternion.AngleAxis(rayRotateY, Vector3.up);
                 q = q * Quaternion.AngleAxis(rayRotateX, Vector3.left);
@@ -291,10 +289,10 @@ public class wooperLearner : MonoBehaviour
     }
     
     // Draws the wooper's field of view in the editor for debugging
-    /*void OnDrawGizmos() {
+    void OnDrawGizmos() {
         Gizmos.color = Color.green;
-        visionDistance = 7;
-        for (float rayRotateX = (-2.5f); rayRotateX <= 5.0f; rayRotateX += 5.0f) {
+        visionDistance = 4;
+        for (float rayRotateX = (-2.5f); rayRotateX <= 7.5f; rayRotateX += 5.0f) {
             for (float rayRotateY = (-10.0f); rayRotateY <= 10.0f; rayRotateY += 20.0f) {
                 Quaternion q = Quaternion.AngleAxis(rayRotateY, Vector3.up);
                 q = q * Quaternion.AngleAxis(rayRotateX, Vector3.left);
@@ -302,7 +300,7 @@ public class wooperLearner : MonoBehaviour
                 Gizmos.DrawRay(transform.position, q * dist);
             }
         }
-    }*/
+    }
     
     // Limits jumping if not on ground
     private void OnCollisionEnter(Collision other) {

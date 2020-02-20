@@ -5,29 +5,21 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
-  - bump1
-  - bump2
-  - nump3
-  - Sight
   - Wooper
-  - Death
-  - pin1
-  - pin2
-  - pin3
-  - pin4
-  - pin5
-  - pin6
-  - pin7
-  - pin8
   - leftLedge
   - rightLedge
   - speedButton
   - slowButton
   - speedDisplay
-  - pit1
-  - bump4
-  - bump5
   - pit2
+  - bump
+  - pit
+  - leftPin
+  - rightPin
+  - middlePin
+  - bumpPinA
+  - bumpPinB
+  - bumpPinC
   layers:
   - Default
   - TransparentFX
