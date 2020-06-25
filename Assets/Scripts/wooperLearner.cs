@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEditor.Animations;
+//using UnityEditor.Animations;
 
 public class wooperLearner : MonoBehaviour
 {
@@ -11,6 +11,7 @@ public class wooperLearner : MonoBehaviour
     private Rigidbody wooperBody;
     //public AnimatorStateMachine wooperModel;
     private string wooperBehaviour;
+	private string lastBehaviour;
     private int[,] currentAction;
     private float actionTime;
     private int walkingSpeed;
@@ -27,6 +28,7 @@ public class wooperLearner : MonoBehaviour
     int familyMatch;
     bool parentTaken;
 
+    // Moves the Wooper's brain into memory if it is successful
     private void wooperDeath() {
         fainted = true;
         wooperBody.velocity = new Vector3(0, 0, 0);
@@ -69,24 +71,13 @@ public class wooperLearner : MonoBehaviour
         if (!fainted) {
             switch (direction) {
                 case 1:
-                    if (colliding)
-                        currentRotation = 0;
+                    currentRotation = 0;
                     break;
                 case 2:
-                    if (colliding)
-                        currentRotation = 45;
+                    currentRotation = 90;
                     break;
                 case 3:
-                    if (colliding)
-                        currentRotation = -45;
-                    break;
-                case 4:
-                    if (colliding)
-                        currentRotation = 90;
-                    break;
-                case 5:
-                    if (colliding)
-                        currentRotation = -90;
+                    currentRotation = -90;
                     break;
                 default:
                     break;
@@ -100,7 +91,7 @@ public class wooperLearner : MonoBehaviour
                     break;
                 case 3:
                     if (colliding)
-                        wooperBody.AddForce(Vector3.up * 250);
+                        wooperBody.AddForce(Vector3.up * 400);
                     break;
                 default:
                     break;
@@ -195,10 +186,10 @@ public class wooperLearner : MonoBehaviour
         foreach (string geneBehaviour in wooperBrain.Keys) {
             for (int i = 0; i < 1; i++) {
                 int selectedAction = Random.Range(0, 8);
-                if (Random.Range(0, 8) == 0)
+                if (Random.Range(0, 4) == 0)
                     wooperBrain[geneBehaviour][selectedAction, 0] = Random.Range(0, 4);
-                if (Random.Range(0, 8) == 0)
-                wooperBrain[geneBehaviour][selectedAction, 1] = Random.Range(0, 6);
+                if (Random.Range(0, 4) == 0)
+                wooperBrain[geneBehaviour][selectedAction, 1] = Random.Range(0, 4);
             }
         }
     }
@@ -234,10 +225,10 @@ public class wooperLearner : MonoBehaviour
         if (Mathf.DeltaAngle(wooperBody.rotation.eulerAngles.y, currentRotation) < 0) {
             wooperBody.MoveRotation(Quaternion.Euler(0, wooperBody.rotation.eulerAngles.y - (120.0f * Time.deltaTime), 0));
         }
-        if (wooperScore <= lastScore + 0.5f) {
+        if (wooperScore <= lastScore) {
             wooperLife += Time.deltaTime;
         } else {
-            wooperLife = 0.0f;
+            wooperLife -= wooperLife;
             lastScore = wooperScore;
         }
         if  (!wooperBrain.ContainsKey(wooperBehaviour)) {
@@ -250,24 +241,24 @@ public class wooperLearner : MonoBehaviour
             }
 
         }
-        if (actionTime >= 0.5f) {
+        if (actionTime >= 0.25f) {
             rotating = false;
-            if (actionCounter > 3) {
+            if (actionCounter > 3 || wooperBehaviour != lastBehaviour) {
                 actionCounter = 0;
             }
             currentAction = wooperBrain[wooperBehaviour];
             renderAction(currentAction[actionCounter, 0], currentAction[actionCounter++, 1]);
-            actionTime -= 0.5f;
+            actionTime -= 0.25f;
         }
 
-        if (transform.position.y <= -3.0f || transform.position.x > 14.0f || transform.position.x < -14.0f|| wooperLife >= 5.0f) {
+        if (transform.position.y <= -3.0f || transform.position.x > 12.54f || transform.position.x < -12.54f|| wooperLife >= 5.0f) {
             wooperDeath();
         }
         float wooperZ = transform.position.z;
         if (wooperZ > wooperScore)
             wooperScore = wooperZ;
         }
-        
+        lastBehaviour = wooperBehaviour;
     }
     
     // Scans the environment for an object to react to
@@ -305,7 +296,8 @@ public class wooperLearner : MonoBehaviour
     // Limits jumping if not on ground
     private void OnCollisionEnter(Collision other) {
         colliding = true;
-        
+		if (other.collider.tag == "rightPin" || other.collider.tag == "leftPin" || other.collider.tag == "middlePin")
+			colliding = false;
     }
     private void OnCollisionExit(Collision other) {
         colliding = false;
